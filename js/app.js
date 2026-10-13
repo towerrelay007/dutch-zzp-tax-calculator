@@ -37,6 +37,14 @@ function formatCurrency(amount, allowNegative = false) {
   return formatted;
 }
 
+function formatDeduction(amount) {
+  const absAmount = Math.abs(amount || 0);
+  if (absAmount === 0) {
+    return formatCurrency(0);
+  }
+  return '-' + formatCurrency(absAmount);
+}
+
 // Elements
 const elements = {
   // Year toggle
@@ -247,18 +255,24 @@ export function recalculateAndRender() {
 
   const periodData = res.breakdownPeriods[state.activePeriod] || res.breakdownPeriods.month;
   elements.periodGross.innerText = formatCurrency(periodData.revenue);
-  elements.periodExpenses.innerText = '-' + formatCurrency(periodData.expenses);
+  elements.periodExpenses.innerText = formatDeduction(periodData.expenses);
   elements.periodTaxable.innerText = formatCurrency(periodData.profit);
-  elements.periodZvw.innerText = '-' + formatCurrency(periodData.zvw);
-  elements.periodTax.innerText = '-' + formatCurrency(periodData.tax);
+  elements.periodZvw.innerText = formatDeduction(periodData.zvw);
+  elements.periodTax.innerText = formatDeduction(periodData.tax);
   elements.periodNet.innerText = formatCurrency(periodData.net, true);
 
   // Render Visual Distribution Bar
-  const rev = Math.max(1, res.grossRevenue);
-  const netShare = Math.max(0, (res.netAnnual / rev) * 100);
-  const taxShare = Math.max(0, ((res.finalBox1Tax + res.zvwContribution) / rev) * 100);
-  const pensionShare = Math.max(0, (res.pensionDeduction / rev) * 100);
-  const expShare = Math.max(0, (res.totalExpenses / rev) * 100);
+  let netShare = 0;
+  let taxShare = 0;
+  let pensionShare = 0;
+  let expShare = 0;
+
+  if (res.grossRevenue > 0) {
+    netShare = Math.max(0, (res.netAnnual / res.grossRevenue) * 100);
+    taxShare = Math.max(0, ((res.finalBox1Tax + res.zvwContribution) / res.grossRevenue) * 100);
+    pensionShare = Math.max(0, (res.pensionDeduction / res.grossRevenue) * 100);
+    expShare = Math.max(0, (res.totalExpenses / res.grossRevenue) * 100);
+  }
 
   elements.distNetBar.style.width = `${netShare.toFixed(1)}%`;
   elements.distTaxBar.style.width = `${taxShare.toFixed(1)}%`;
@@ -272,22 +286,22 @@ export function recalculateAndRender() {
 
   // Render Step-by-Step Table
   elements.outRevenue.innerText = formatCurrency(res.grossRevenue);
-  elements.outExpenses.innerText = '-' + formatCurrency(res.totalExpenses);
+  elements.outExpenses.innerText = formatDeduction(res.totalExpenses);
   elements.outProfitBefore.innerText = formatCurrency(res.profitBeforeDeductions);
-  elements.outZA.innerText = '-' + formatCurrency(res.zelfstandigenaftrek);
-  elements.outStarters.innerText = '-' + formatCurrency(res.startersaftrek);
-  elements.outMKB.innerText = '-' + formatCurrency(res.mkbWinstvrijstelling);
+  elements.outZA.innerText = formatDeduction(res.zelfstandigenaftrek);
+  elements.outStarters.innerText = formatDeduction(res.startersaftrek);
+  elements.outMKB.innerText = formatDeduction(res.mkbWinstvrijstelling);
   elements.outTaxableProfit.innerText = formatCurrency(res.taxableProfit);
 
   elements.zvwLabel.innerText = `Zvw Healthcare Tax (${(res.zvwRate * 100).toFixed(2)}%)`;
   elements.zvwTooltip.title = `Applied up to €${res.zvwCap.toLocaleString('nl-NL')} cap. Max contribution: €${Math.round(res.zvwCap * res.zvwRate).toLocaleString('nl-NL')}`;
-  elements.outZvw.innerText = '-' + formatCurrency(res.zvwContribution);
+  elements.outZvw.innerText = formatDeduction(res.zvwContribution);
 
-  elements.outPensionDed.innerText = '-' + formatCurrency(res.pensionDeduction);
+  elements.outPensionDed.innerText = formatDeduction(res.pensionDeduction);
   elements.outTaxableIncome.innerText = formatCurrency(res.taxableIncomeBox1);
   elements.outBox1Gross.innerText = formatCurrency(res.box1GrossTax);
-  elements.outCredits.innerText = '-' + formatCurrency(res.totalTaxCredits);
-  elements.outTax.innerText = '-' + formatCurrency(res.finalBox1Tax);
+  elements.outCredits.innerText = formatDeduction(res.totalTaxCredits);
+  elements.outTax.innerText = formatDeduction(res.finalBox1Tax);
   elements.outNetTakeHome.innerText = formatCurrency(res.netAnnual, true);
 
   updateHash();

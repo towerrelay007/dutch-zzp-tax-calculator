@@ -58,7 +58,7 @@ export const TAX_CONFIG = {
         return 968 + 0.31433 * (income - 11490);
       } else if (income <= 43770) {
         return 5158 + 0.02471 * (income - 24820);
-      } else if (income <= 127916) {
+      } else if (income <= 130191) {
         return Math.max(0, 5626 - 0.06510 * (income - 43770));
       }
       return 0;
