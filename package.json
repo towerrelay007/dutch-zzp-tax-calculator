@@ -1,0 +1,12 @@
+{
+  "name": "dutch-zzp-tax-calculator",
+  "version": "1.0.0",
+  "description": "Fast, responsive Dutch ZZP Tax Calculator (2025 & 2026) inspired by thetax.nl",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": ["zzp", "tax", "freelance", "netherlands", "dutch-tax", "calculator"],
+  "author": "towerrelay007",
+  "license": "MIT"
+}
