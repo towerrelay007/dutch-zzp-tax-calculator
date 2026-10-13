@@ -1,0 +1,14 @@
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Superpowers SDD scratch directory
+.superpowers/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Editor directories
+.vscode/
+.idea/
