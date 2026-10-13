@@ -1,7 +1,9 @@
 import { calculateZZPTax } from './tax-engine.js';
+import { t } from './i18n.js';
 
 // Application State
 const state = {
+  lang: 'en',
   taxYear: 2026,
   calculationMode: 'hourly',
   activePeriod: 'month',
@@ -47,6 +49,10 @@ function formatDeduction(amount) {
 
 // Elements
 const elements = {
+  // Language toggle
+  langEN: document.getElementById('langEN'),
+  langNL: document.getElementById('langNL'),
+
   // Year toggle
   taxYear2026: document.getElementById('taxYear2026'),
   taxYear2025: document.getElementById('taxYear2025'),
@@ -121,9 +127,18 @@ const elements = {
 
 // URL Hash Parsing and Updating
 function parseHash() {
+  const storedLang = localStorage.getItem('zzp_lang');
+  if (storedLang === 'nl' || storedLang === 'en') {
+    state.lang = storedLang;
+  }
+
   if (!window.location.hash || window.location.hash.length <= 1) return;
   try {
     const params = new URLSearchParams(window.location.hash.substring(1));
+    if (params.has('lang')) {
+      const l = params.get('lang');
+      if (l === 'nl' || l === 'en') state.lang = l;
+    }
     if (params.has('year')) {
       const year = parseInt(params.get('year'), 10);
       if (year === 2025 || year === 2026) state.taxYear = year;
@@ -158,6 +173,7 @@ function parseHash() {
 
 function updateHash() {
   const params = new URLSearchParams();
+  params.set('lang', state.lang);
   params.set('year', state.taxYear);
   params.set('mode', state.calculationMode);
   params.set('rate', elements.hourlyRate.value);
@@ -176,6 +192,37 @@ function updateHash() {
   }
 }
 
+export function setLanguage(lang) {
+  if (lang !== 'nl' && lang !== 'en') lang = 'en';
+  state.lang = lang;
+  try {
+    localStorage.setItem('zzp_lang', lang);
+  } catch {}
+  document.documentElement.lang = lang;
+
+  if (lang === 'nl') {
+    elements.langNL.classList.add('active');
+    elements.langNL.classList.remove('text-slate-600');
+    elements.langEN.classList.remove('active');
+    elements.langEN.classList.add('text-slate-600');
+  } else {
+    elements.langEN.classList.add('active');
+    elements.langEN.classList.remove('text-slate-600');
+    elements.langNL.classList.remove('active');
+    elements.langNL.classList.add('text-slate-600');
+  }
+
+  // Update all declarative data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (key) {
+      el.innerText = t(key, lang);
+    }
+  });
+
+  recalculateAndRender();
+}
+
 // Main Recalculate and Render Function
 export function recalculateAndRender() {
   // Sync year toggles
@@ -184,15 +231,15 @@ export function recalculateAndRender() {
     elements.taxYear2026.classList.remove('text-slate-600');
     elements.taxYear2025.classList.remove('active');
     elements.taxYear2025.classList.add('text-slate-600');
-    elements.activeYearBadge.innerText = 'Tax Year 2026';
-    elements.zaLabel.innerText = 'Unlocks €1,200 Zelfstandigenaftrek';
+    elements.activeYearBadge.innerText = t('activeYearBadge', state.lang, { year: 2026 });
+    elements.zaLabel.innerText = t('zaLabel2026', state.lang);
   } else {
     elements.taxYear2025.classList.add('active');
     elements.taxYear2025.classList.remove('text-slate-600');
     elements.taxYear2026.classList.remove('active');
     elements.taxYear2026.classList.add('text-slate-600');
-    elements.activeYearBadge.innerText = 'Tax Year 2025';
-    elements.zaLabel.innerText = 'Unlocks €2,470 Zelfstandigenaftrek';
+    elements.activeYearBadge.innerText = t('activeYearBadge', state.lang, { year: 2025 });
+    elements.zaLabel.innerText = t('zaLabel2025', state.lang);
   }
 
   // Sync mode views
@@ -215,7 +262,7 @@ export function recalculateAndRender() {
   const hours = parseFloat(elements.billableHours.value) || 0;
   const wkHours = (hours / 48).toFixed(1);
   const days = ((hours / 48) / 8).toFixed(1);
-  elements.hoursDisplay.innerText = `${wkHours} hrs/wk (~${days} days)`;
+  elements.hoursDisplay.innerText = t('hoursDisplay', state.lang, { wkHours, days });
 
   // Auto urencriterium assistance (auto-checks if >= 1225 unless manually modified)
   if (!state.userOverrodeUrencriterium) {
@@ -241,8 +288,8 @@ export function recalculateAndRender() {
   // Render Hero
   elements.netMonthly.innerText = formatCurrency(res.netMonthly, true);
   elements.netAnnual.innerText = formatCurrency(res.netAnnual, true);
-  elements.effectiveRateBadge.innerText = `${res.effectiveTaxRate.toFixed(1)}% Tax Rate`;
-  elements.netMarginBadge.innerText = `${res.netMargin.toFixed(1)}% Net Margin`;
+  elements.effectiveRateBadge.innerText = t('taxRateBadge', state.lang, { rate: res.effectiveTaxRate.toFixed(1) });
+  elements.netMarginBadge.innerText = t('netMarginBadge', state.lang, { margin: res.netMargin.toFixed(1) });
 
   // Render thetax.nl Period Summary
   elements.tabButtons.forEach(btn => {
@@ -293,7 +340,7 @@ export function recalculateAndRender() {
   elements.outMKB.innerText = formatDeduction(res.mkbWinstvrijstelling);
   elements.outTaxableProfit.innerText = formatCurrency(res.taxableProfit);
 
-  elements.zvwLabel.innerText = `Zvw Healthcare Tax (${(res.zvwRate * 100).toFixed(2)}%)`;
+  elements.zvwLabel.innerText = t('rowZvw', state.lang, { rate: (res.zvwRate * 100).toFixed(2) });
   elements.zvwTooltip.title = `Applied up to €${res.zvwCap.toLocaleString('nl-NL')} cap. Max contribution: €${Math.round(res.zvwCap * res.zvwRate).toLocaleString('nl-NL')}`;
   elements.outZvw.innerText = formatDeduction(res.zvwContribution);
 
@@ -309,6 +356,14 @@ export function recalculateAndRender() {
 
 // Bind Event Listeners
 function initListeners() {
+  // Language Switcher Buttons
+  if (elements.langEN) {
+    elements.langEN.addEventListener('click', () => setLanguage('en'));
+  }
+  if (elements.langNL) {
+    elements.langNL.addEventListener('click', () => setLanguage('nl'));
+  }
+
   // Input fields
   const inputList = [
     elements.hourlyRate,
@@ -390,9 +445,9 @@ function initListeners() {
   elements.btnCopyLink.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      showToast('Link copied to clipboard!');
+      showToast(t('linkCopied', state.lang));
     } catch {
-      showToast('Could not copy link automatically');
+      showToast(t('linkCopyFailed', state.lang));
     }
   });
 
@@ -414,7 +469,7 @@ function initListeners() {
 
     window.history.replaceState(null, '', window.location.pathname);
     recalculateAndRender();
-    showToast('Reset to default values');
+    showToast(t('resetToast', state.lang));
   });
 }
 
@@ -432,5 +487,5 @@ function showToast(message) {
 window.addEventListener('DOMContentLoaded', () => {
   parseHash();
   initListeners();
-  recalculateAndRender();
+  setLanguage(state.lang);
 });

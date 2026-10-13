@@ -8,6 +8,7 @@ A clean, responsive, single-page net income and Dutch tax calculator inspired by
 
 ## ✨ Features
 
+- **Bilingual Interface (English 🇬🇧 & Dutch 🇳🇱):** Seamless one-click switching between English and official Dutch fiscal terminology, with language preferences saved to `localStorage` and URL hash.
 - **thetax.nl Period View:** Switch between **Year**, **Quarter**, **Month**, **Week**, **Day**, and **Hour** breakdowns for instant financial clarity.
 - **Tax Years 2025 & 2026:** Toggle between 2025 and 2026 tax plans with accurate statutory brackets and deductions.
 - **Dual Input Modes:** Calculate based on **Hourly Rate + Billable Hours** or direct **Annual Turnover**.

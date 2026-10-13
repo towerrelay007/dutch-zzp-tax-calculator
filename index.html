@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dutch ZZP & Freelance Tax Calculator | thetax.nl style for 2026 & 2025</title>
+    <title>Dutch ZZP & Freelance Tax Calculator | thetax.nl style</title>
     <meta name="description" content="Calculate your Dutch ZZP net take-home income, Box 1 income tax, Zvw health contribution, MKB-winstvrijstelling, and entrepreneurial deductions.">
     <!-- Tailwind CSS modern browser compiler -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -13,13 +13,12 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-mono-num { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
-        /* Smooth transitions */
         .tab-btn.active {
             background-color: #2563eb;
             color: #ffffff;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
-        .year-btn.active {
+        .year-btn.active, .lang-btn.active {
             background-color: #0f172a;
             color: #ffffff;
         }
@@ -33,29 +32,40 @@
             <div>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl">🇳🇱</span>
-                    <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900">
+                    <h1 data-i18n="appTitle" class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900">
                         Dutch ZZP Tax Calculator
                     </h1>
-                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full ml-1">thetax style</span>
+                    <span data-i18n="thetaxBadge" class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full ml-1">thetax style</span>
                 </div>
-                <p class="text-slate-500 text-sm mt-1">
+                <p data-i18n="appSubtitle" class="text-slate-500 text-sm mt-1">
                     Calculate net take-home pay, Box 1 income tax, Zvw healthcare tax, and deductions for Dutch sole proprietors (<em class="italic">eenmanszaken</em>).
                 </p>
             </div>
 
-            <!-- Tax Year & Action Controls -->
-            <div class="flex items-center gap-3 self-start md:self-auto">
+            <!-- Tax Year, Language & Action Controls -->
+            <div class="flex flex-wrap items-center gap-2.5 self-start md:self-auto">
+                <!-- Language Switcher -->
+                <div class="bg-slate-200/80 p-1 rounded-xl flex items-center text-xs font-bold shadow-inner">
+                    <button type="button" id="langEN" class="lang-btn active px-2.5 py-1.5 rounded-lg transition-all">🇬🇧 EN</button>
+                    <button type="button" id="langNL" class="lang-btn text-slate-600 px-2.5 py-1.5 rounded-lg transition-all hover:text-slate-900">🇳🇱 NL</button>
+                </div>
+
+                <!-- Year Switcher -->
                 <div class="bg-slate-200/80 p-1 rounded-xl flex items-center text-xs font-bold shadow-inner">
                     <button type="button" id="taxYear2026" class="year-btn active px-3 py-1.5 rounded-lg transition-all">2026</button>
                     <button type="button" id="taxYear2025" class="year-btn text-slate-600 px-3 py-1.5 rounded-lg transition-all hover:text-slate-900">2025</button>
                 </div>
+
+                <!-- Share Link -->
                 <button type="button" id="btnCopyLink" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 bg-white border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition-all shadow-sm active:scale-95">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-                    <span>Share</span>
+                    <span data-i18n="shareBtn">Share</span>
                 </button>
+
+                <!-- Reset -->
                 <button type="button" id="btnReset" class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-2 bg-white border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-red-600 transition-all shadow-sm" title="Reset all fields to defaults">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                    <span>Reset</span>
+                    <span data-i18n="resetBtn">Reset</span>
                 </button>
             </div>
         </header>
@@ -66,13 +76,13 @@
             <!-- LEFT COLUMN: Inputs Card -->
             <div class="lg:col-span-5 bg-white p-6 md:p-7 rounded-3xl shadow-sm border border-slate-200/80 space-y-5">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                        <span>💼 Business Inputs</span>
+                    <h2 data-i18n="businessInputsTitle" class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        💼 Business Inputs
                     </h2>
                     <!-- Input Mode Toggle -->
                     <div class="bg-slate-100 p-0.5 rounded-lg flex text-xs font-medium text-slate-600">
-                        <button type="button" id="modeHourly" class="px-2.5 py-1 rounded-md bg-white text-blue-600 font-semibold shadow-xs">Hourly Rate</button>
-                        <button type="button" id="modeAnnual" class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900">Annual Revenue</button>
+                        <button type="button" id="modeHourly" data-i18n="modeHourly" class="px-2.5 py-1 rounded-md bg-white text-blue-600 font-semibold shadow-xs">Hourly Rate</button>
+                        <button type="button" id="modeAnnual" data-i18n="modeAnnual" class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900">Annual Revenue</button>
                     </div>
                 </div>
 
@@ -81,8 +91,8 @@
                     <!-- Hourly Rate -->
                     <div>
                         <div class="flex justify-between items-center mb-1.5">
-                            <label for="hourlyRate" class="text-sm font-semibold text-slate-700">Hourly Rate (€ / hr ex. VAT)</label>
-                            <span class="text-xs text-slate-400">excl. 21% btw</span>
+                            <label for="hourlyRate" data-i18n="hourlyRateLabel" class="text-sm font-semibold text-slate-700">Hourly Rate (€ / hr ex. VAT)</label>
+                            <span data-i18n="exBtw" class="text-xs text-slate-400">excl. 21% btw</span>
                         </div>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">€</span>
@@ -101,20 +111,20 @@
                     <!-- Billable Hours -->
                     <div>
                         <div class="flex justify-between items-center mb-1.5">
-                            <label for="billableHours" class="text-sm font-semibold text-slate-700">Billable Hours / Year</label>
+                            <label for="billableHours" data-i18n="billableHoursLabel" class="text-sm font-semibold text-slate-700">Billable Hours / Year</label>
                             <span id="hoursDisplay" class="text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100 font-mono-num">31.3 hrs/wk (~3.9 days)</span>
                         </div>
                         <input type="number" id="billableHours" value="1500" min="0" max="3000" step="10" 
                             class="w-full px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none font-semibold text-slate-900 text-lg transition-all">
-                        <p class="text-xs text-slate-500 mt-1">Full-time standard freelance is ~1,400 to 1,600 billable hours across 48 weeks.</p>
+                        <p data-i18n="billableHoursHelp" class="text-xs text-slate-500 mt-1">Full-time standard freelance is ~1,400 to 1,600 billable hours across 48 weeks.</p>
                     </div>
                 </div>
 
                 <!-- Annual Mode Input (Hidden by default) -->
                 <div id="annualRevenueContainer" class="hidden">
                     <div class="flex justify-between items-center mb-1.5">
-                        <label for="annualRevenue" class="text-sm font-semibold text-slate-700">Annual Gross Turnover (€)</label>
-                        <span class="text-xs text-slate-400">excl. VAT / BTW</span>
+                        <label for="annualRevenue" data-i18n="annualRevenueLabel" class="text-sm font-semibold text-slate-700">Annual Gross Turnover (€)</label>
+                        <span data-i18n="annualRevenueHelp" class="text-xs text-slate-400">excl. VAT / BTW</span>
                     </div>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">€</span>
@@ -125,35 +135,35 @@
 
                 <!-- Operating Expenses -->
                 <div>
-                    <label for="expenses" class="block text-sm font-semibold text-slate-700 mb-1.5">Operating Expenses (€ / year)</label>
+                    <label for="expenses" data-i18n="expensesLabel" class="block text-sm font-semibold text-slate-700 mb-1.5">Operating Expenses (€ / year)</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">€</span>
                         <input type="number" id="expenses" value="10000" min="0" max="200000" step="250" 
                             class="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 transition-all">
                     </div>
-                    <p class="text-xs text-slate-500 mt-1">Equipment, laptop, accountant, software, subscriptions, mobile, travel.</p>
+                    <p data-i18n="expensesHelp" class="text-xs text-slate-500 mt-1">Equipment, laptop, accountant, software, subscriptions, mobile, travel.</p>
                 </div>
 
                 <!-- AOV Disability Insurance -->
                 <div>
-                    <label for="aov" class="block text-sm font-semibold text-slate-700 mb-1.5">AOV Disability Insurance (€ / year)</label>
+                    <label for="aov" data-i18n="aovLabel" class="block text-sm font-semibold text-slate-700 mb-1.5">AOV Disability Insurance (€ / year)</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">€</span>
                         <input type="number" id="aov" value="5000" min="0" max="50000" step="250" 
                             class="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 transition-all">
                     </div>
-                    <p class="text-xs text-slate-500 mt-1">Arbeidsongeschiktheidsverzekering premiums are 100% tax-deductible.</p>
+                    <p data-i18n="aovHelp" class="text-xs text-slate-500 mt-1">Arbeidsongeschiktheidsverzekering premiums are 100% tax-deductible.</p>
                 </div>
 
                 <!-- Pension / Lijfrente -->
                 <div>
-                    <label for="pension" class="block text-sm font-semibold text-slate-700 mb-1.5">Pension / Lijfrente (€ / year)</label>
+                    <label for="pension" data-i18n="pensionLabel" class="block text-sm font-semibold text-slate-700 mb-1.5">Pension / Lijfrente (€ / year)</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">€</span>
                         <input type="number" id="pension" value="15000" min="0" max="100000" step="500" 
                             class="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 transition-all">
                     </div>
-                    <p class="text-xs text-slate-500 mt-1">Tax-deductible retirement deposit (jaarruimte / reserveringsruimte).</p>
+                    <p data-i18n="pensionHelp" class="text-xs text-slate-500 mt-1">Tax-deductible retirement deposit (jaarruimte / reserveringsruimte).</p>
                 </div>
 
                 <!-- Entrepreneur Toggles Card -->
@@ -161,7 +171,7 @@
                     <!-- Urencriterium -->
                     <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-100">
                         <div>
-                            <span class="text-sm font-bold text-slate-800 block">Urencriterium (≥ 1,225 hrs)</span>
+                            <span data-i18n="urencriteriumTitle" class="text-sm font-bold text-slate-800 block">Urencriterium (≥ 1,225 hrs)</span>
                             <span id="zaLabel" class="text-xs text-slate-500">Unlocks €1,200 Zelfstandigenaftrek</span>
                         </div>
                         <input type="checkbox" id="urencriterium" checked class="w-5 h-5 text-blue-600 rounded-md focus:ring-blue-500 cursor-pointer">
@@ -170,8 +180,8 @@
                     <!-- Startersaftrek -->
                     <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-100">
                         <div>
-                            <span class="text-sm font-bold text-slate-800 block">Startersaftrek</span>
-                            <span class="text-xs text-slate-500">Extra €2,123 deduction (first 3 yrs)</span>
+                            <span data-i18n="startersaftrekTitle" class="text-sm font-bold text-slate-800 block">Startersaftrek</span>
+                            <span data-i18n="startersaftrekSub" class="text-xs text-slate-500">Extra €2,123 deduction (first 3 yrs)</span>
                         </div>
                         <input type="checkbox" id="startersaftrek" class="w-5 h-5 text-blue-600 rounded-md focus:ring-blue-500 cursor-pointer">
                     </div>
@@ -186,7 +196,7 @@
                     <div class="absolute -right-8 -top-8 w-44 h-44 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
                     
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-blue-200 text-xs font-bold uppercase tracking-wider">Estimated Net Take-Home</span>
+                        <span data-i18n="takeHomeHeader" class="text-blue-200 text-xs font-bold uppercase tracking-wider">Estimated Net Take-Home</span>
                         <div class="flex items-center gap-2">
                             <span id="effectiveRateBadge" class="bg-white/20 backdrop-blur-md text-white text-xs font-semibold px-2.5 py-1 rounded-full font-mono-num">32% Tax Rate</span>
                             <span id="netMarginBadge" class="bg-emerald-500/20 text-emerald-200 text-xs font-semibold px-2.5 py-1 rounded-full font-mono-num">50% Net Margin</span>
@@ -196,11 +206,11 @@
                     <div class="mt-4 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4">
                         <div>
                             <span id="netMonthly" class="text-4xl md:text-5xl font-black tracking-tight font-mono-num text-white">€0</span>
-                            <span class="text-blue-200 text-lg font-medium ml-1">/ month</span>
+                            <span data-i18n="perMonth" class="text-blue-200 text-lg font-medium ml-1">/ month</span>
                         </div>
                         <div class="sm:text-right border-t sm:border-t-0 border-white/10 pt-3 sm:pt-0">
                             <span id="netAnnual" class="text-2xl md:text-3xl font-extrabold font-mono-num text-emerald-300">€0</span>
-                            <span class="text-blue-200 text-xs block font-medium">annual net cash in pocket</span>
+                            <span data-i18n="annualNetCash" class="text-blue-200 text-xs block font-medium">annual net cash in pocket</span>
                         </div>
                     </div>
                 </div>
@@ -208,44 +218,44 @@
                 <!-- thetax.nl-style Period Breakdown Tabs Card -->
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-                        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                            <span>⏱️ Period Breakdown</span>
+                        <h3 data-i18n="periodBreakdownTitle" class="text-base font-bold text-slate-900 flex items-center gap-2">
+                            ⏱️ Period Breakdown
                         </h3>
                         <!-- Tabs -->
                         <div class="inline-flex p-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600 overflow-x-auto">
-                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all" data-period="year" id="tabYear">Year</button>
-                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all" data-period="quarter" id="tabQuarter">Quarter</button>
-                            <button type="button" class="tab-btn active px-3 py-1.5 rounded-lg transition-all" data-period="month" id="tabMonth">Month</button>
-                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all" data-period="week" id="tabWeek">Week</button>
-                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all" data-period="day" id="tabDay">Day</button>
-                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all" data-period="hour" id="tabHour">Hour</button>
+                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all" data-period="year" id="tabYear" data-i18n="tabYear">Year</button>
+                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all" data-period="quarter" id="tabQuarter" data-i18n="tabQuarter">Quarter</button>
+                            <button type="button" class="tab-btn active px-3 py-1.5 rounded-lg transition-all" data-period="month" id="tabMonth" data-i18n="tabMonth">Month</button>
+                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all" data-period="week" id="tabWeek" data-i18n="tabWeek">Week</button>
+                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all" data-period="day" id="tabDay" data-i18n="tabDay">Day</button>
+                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all" data-period="hour" id="tabHour" data-i18n="tabHour">Hour</button>
                         </div>
                     </div>
 
                     <!-- Period Summary Grid -->
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
                         <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                            <span class="text-xs text-slate-500 font-medium block">Gross Revenue</span>
+                            <span data-i18n="periodGrossLabel" class="text-xs text-slate-500 font-medium block">Gross Revenue</span>
                             <span id="periodGross" class="text-base font-bold text-slate-900 font-mono-num">€0</span>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                            <span class="text-xs text-slate-500 font-medium block">Expenses & AOV</span>
+                            <span data-i18n="periodExpensesLabel" class="text-xs text-slate-500 font-medium block">Expenses & AOV</span>
                             <span id="periodExpenses" class="text-base font-bold text-slate-700 font-mono-num">-€0</span>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                            <span class="text-xs text-slate-500 font-medium block">Taxable Profit</span>
+                            <span data-i18n="periodTaxableLabel" class="text-xs text-slate-500 font-medium block">Taxable Profit</span>
                             <span id="periodTaxable" class="text-base font-bold text-slate-800 font-mono-num">€0</span>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                            <span class="text-xs text-slate-500 font-medium block">Zvw Health Premie</span>
+                            <span data-i18n="periodZvwLabel" class="text-xs text-slate-500 font-medium block">Zvw Health Premie</span>
                             <span id="periodZvw" class="text-base font-bold text-rose-600 font-mono-num">-€0</span>
                         </div>
                         <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                            <span class="text-xs text-slate-500 font-medium block">Box 1 Income Tax</span>
+                            <span data-i18n="periodTaxLabel" class="text-xs text-slate-500 font-medium block">Box 1 Income Tax</span>
                             <span id="periodTax" class="text-base font-bold text-rose-600 font-mono-num">-€0</span>
                         </div>
                         <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-100">
-                            <span class="text-xs text-emerald-700 font-medium block">Net Take-Home</span>
+                            <span data-i18n="periodNetLabel" class="text-xs text-emerald-700 font-medium block">Net Take-Home</span>
                             <span id="periodNet" class="text-base font-extrabold text-emerald-700 font-mono-num">€0</span>
                         </div>
                     </div>
@@ -253,7 +263,7 @@
 
                 <!-- Revenue Distribution Stacked Bar -->
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80">
-                    <h3 class="text-sm font-bold text-slate-700 mb-3">Where Does Your Turnover Go?</h3>
+                    <h3 data-i18n="distTitle" class="text-sm font-bold text-slate-700 mb-3">Where Does Your Turnover Go?</h3>
                     <div class="h-4 rounded-full bg-slate-100 overflow-hidden flex w-full">
                         <div id="distNetBar" class="bg-emerald-500 h-full transition-all duration-300" style="width: 50%" title="Net Income"></div>
                         <div id="distTaxBar" class="bg-rose-500 h-full transition-all duration-300" style="width: 30%" title="Taxes & Zvw"></div>
@@ -261,18 +271,18 @@
                         <div id="distExpBar" class="bg-slate-400 h-full transition-all duration-300" style="width: 10%" title="Operating Expenses"></div>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 text-xs font-semibold">
-                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span><span class="text-slate-600">Net Take-Home:</span> <span id="distNetLabel" class="font-mono-num text-slate-900">0%</span></div>
-                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span><span class="text-slate-600">Tax & Zvw:</span> <span id="distTaxLabel" class="font-mono-num text-slate-900">0%</span></div>
-                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span><span class="text-slate-600">Pension:</span> <span id="distPensionLabel" class="font-mono-num text-slate-900">0%</span></div>
-                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span><span class="text-slate-600">Expenses:</span> <span id="distExpLabel" class="font-mono-num text-slate-900">0%</span></div>
+                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span><span data-i18n="distNet" class="text-slate-600">Net Take-Home:</span> <span id="distNetLabel" class="font-mono-num text-slate-900">0%</span></div>
+                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span><span data-i18n="distTax" class="text-slate-600">Tax & Zvw:</span> <span id="distTaxLabel" class="font-mono-num text-slate-900">0%</span></div>
+                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span><span data-i18n="distPension" class="text-slate-600">Pension:</span> <span id="distPensionLabel" class="font-mono-num text-slate-900">0%</span></div>
+                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span><span data-i18n="distExp" class="text-slate-600">Expenses:</span> <span id="distExpLabel" class="font-mono-num text-slate-900">0%</span></div>
                     </div>
                 </div>
 
                 <!-- Detailed Financial & Tax Breakdown Table -->
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80">
                     <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
-                        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                            <span>📊 Detailed Dutch Tax Breakdown</span>
+                        <h3 data-i18n="detailedTitle" class="text-base font-bold text-slate-900 flex items-center gap-2">
+                            📊 Detailed Dutch Tax Breakdown
                         </h3>
                         <span id="activeYearBadge" class="text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-lg border border-blue-100">Tax Year 2026</span>
                     </div>
@@ -280,26 +290,26 @@
                     <div class="space-y-2 text-sm">
                         <!-- Revenue -->
                         <div class="flex justify-between py-1.5 border-b border-slate-100">
-                            <span class="text-slate-600">Gross Turnover (Omzet)</span>
+                            <span data-i18n="rowRevenue" class="text-slate-600">Gross Turnover (Omzet)</span>
                             <span id="outRevenue" class="font-semibold text-slate-900 font-mono-num">€0</span>
                         </div>
 
                         <!-- Expenses -->
                         <div class="flex justify-between py-1.5 border-b border-slate-100">
-                            <span class="text-slate-600">Operating Expenses & AOV Insurance</span>
+                            <span data-i18n="rowExpenses" class="text-slate-600">Operating Expenses & AOV Insurance</span>
                             <span id="outExpenses" class="font-semibold text-slate-700 font-mono-num">-€0</span>
                         </div>
 
                         <!-- Profit before deductions -->
                         <div class="flex justify-between py-2 px-3 rounded-xl bg-slate-50 border border-slate-100">
-                            <span class="font-bold text-slate-800">Gross Business Profit (Winst uit onderneming)</span>
+                            <span data-i18n="rowProfitBefore" class="font-bold text-slate-800">Gross Business Profit (Winst uit onderneming)</span>
                             <span id="outProfitBefore" class="font-bold text-slate-900 font-mono-num">€0</span>
                         </div>
 
                         <!-- Zelfstandigenaftrek -->
                         <div class="flex justify-between py-1.5 border-b border-slate-100">
                             <div class="flex items-center gap-1">
-                                <span class="text-slate-600">Zelfstandigenaftrek</span>
+                                <span data-i18n="rowZA" class="text-slate-600">Zelfstandigenaftrek</span>
                                 <span class="text-xs text-slate-400 cursor-help" title="Sole proprietor tax deduction for ≥ 1,225 hours">ℹ️</span>
                             </div>
                             <span id="outZA" class="font-semibold text-emerald-600 font-mono-num">-€0</span>
@@ -308,7 +318,7 @@
                         <!-- Startersaftrek -->
                         <div class="flex justify-between py-1.5 border-b border-slate-100">
                             <div class="flex items-center gap-1">
-                                <span class="text-slate-600">Startersaftrek</span>
+                                <span data-i18n="rowStarters" class="text-slate-600">Startersaftrek</span>
                                 <span class="text-xs text-slate-400 cursor-help" title="Starter allowance for eligible first 3 years">ℹ️</span>
                             </div>
                             <span id="outStarters" class="font-semibold text-emerald-600 font-mono-num">-€0</span>
@@ -317,7 +327,7 @@
                         <!-- MKB Winstvrijstelling -->
                         <div class="flex justify-between py-1.5 border-b border-slate-100">
                             <div class="flex items-center gap-1">
-                                <span class="text-slate-600">MKB-Winstvrijstelling (12.7%)</span>
+                                <span data-i18n="rowMKB" class="text-slate-600">MKB-Winstvrijstelling (12.7%)</span>
                                 <span class="text-xs text-slate-400 cursor-help" title="12.7% tax exemption for small and medium businesses">ℹ️</span>
                             </div>
                             <span id="outMKB" class="font-semibold text-emerald-600 font-mono-num">-€0</span>
@@ -325,7 +335,7 @@
 
                         <!-- Fiscale Winst -->
                         <div class="flex justify-between py-2 px-3 rounded-xl bg-slate-50 border border-slate-100">
-                            <span class="font-bold text-slate-800">Taxable Business Profit (Fiscale Winst)</span>
+                            <span data-i18n="rowTaxableProfit" class="font-bold text-slate-800">Taxable Business Profit (Fiscale Winst)</span>
                             <span id="outTaxableProfit" class="font-bold text-slate-900 font-mono-num">€0</span>
                         </div>
 
@@ -341,7 +351,7 @@
                         <!-- Pension -->
                         <div class="flex justify-between py-1.5 border-b border-slate-100">
                             <div class="flex items-center gap-1">
-                                <span class="text-slate-600">Pension / Lijfrente Deduction</span>
+                                <span data-i18n="rowPension" class="text-slate-600">Pension / Lijfrente Deduction</span>
                                 <span class="text-xs text-slate-400 cursor-help" title="Deductible Box 1 personal allowance">ℹ️</span>
                             </div>
                             <span id="outPensionDed" class="font-semibold text-emerald-600 font-mono-num">-€0</span>
@@ -349,20 +359,20 @@
 
                         <!-- Taxable Income Box 1 -->
                         <div class="flex justify-between py-2 px-3 rounded-xl bg-slate-50 border border-slate-100">
-                            <span class="font-bold text-slate-800">Taxable Income (Box 1)</span>
+                            <span data-i18n="rowTaxableIncome" class="font-bold text-slate-800">Taxable Income (Box 1)</span>
                             <span id="outTaxableIncome" class="font-bold text-slate-900 font-mono-num">€0</span>
                         </div>
 
                         <!-- Box 1 gross tax -->
                         <div class="flex justify-between py-1.5 border-b border-slate-100">
-                            <span class="text-slate-600">Gross Box 1 Tax (before credits)</span>
+                            <span data-i18n="rowBox1Gross" class="text-slate-600">Gross Box 1 Tax (before credits)</span>
                             <span id="outBox1Gross" class="font-semibold text-slate-700 font-mono-num">€0</span>
                         </div>
 
                         <!-- Heffingskortingen -->
                         <div class="flex justify-between py-1.5 border-b border-slate-100">
                             <div class="flex items-center gap-1">
-                                <span class="text-slate-600">Applied Tax Credits (Heffingskortingen)</span>
+                                <span data-i18n="rowCredits" class="text-slate-600">Applied Tax Credits (Heffingskortingen)</span>
                                 <span class="text-xs text-slate-400 cursor-help" title="Algemene heffingskorting + Arbeidskorting combined">ℹ️</span>
                             </div>
                             <span id="outCredits" class="font-semibold text-emerald-600 font-mono-num">-€0</span>
@@ -370,13 +380,13 @@
 
                         <!-- Final Box 1 Tax -->
                         <div class="flex justify-between py-1.5 border-b border-slate-100">
-                            <span class="font-semibold text-rose-600">Final Box 1 Income Tax</span>
+                            <span data-i18n="rowTax" class="font-semibold text-rose-600">Final Box 1 Income Tax</span>
                             <span id="outTax" class="font-bold text-rose-600 font-mono-num">-€0</span>
                         </div>
 
                         <!-- Net Take Home -->
                         <div class="flex justify-between py-3 px-3 rounded-2xl bg-emerald-50 border border-emerald-200 mt-2">
-                            <span class="font-black text-emerald-900 text-base">Annual Net Disposable Cash</span>
+                            <span data-i18n="rowNetTakeHome" class="font-black text-emerald-900 text-base">Annual Net Disposable Cash</span>
                             <span id="outNetTakeHome" class="font-black text-emerald-800 text-base font-mono-num">€0</span>
                         </div>
                     </div>
@@ -388,16 +398,16 @@
         <!-- Footer & Disclaimer -->
         <footer class="mt-12 pt-6 border-t border-slate-200 text-xs text-slate-500 space-y-2 text-center md:text-left">
             <div class="flex flex-col md:flex-row justify-between items-center gap-2">
-                <p>
+                <p data-i18n="footerDisclaimer">
                     🇳🇱 <strong>Disclaimer:</strong> This calculator provides realistic estimates based on Dutch Ministry of Finance (<em class="italic">Belastingdienst</em>) rules for 2025 and 2026. Consult a registered Dutch tax adviser (<em class="italic">belastingadviseur</em>) for individual filings.
                 </p>
                 <div class="flex items-center gap-3">
-                    <a href="https://github.com/towerrelay007/dutch-zzp-tax-calculator" target="_blank" rel="noopener" class="text-blue-600 hover:text-blue-800 font-medium underline">
+                    <a href="https://github.com/towerrelay007/dutch-zzp-tax-calculator" target="_blank" rel="noopener" data-i18n="footerSource" class="text-blue-600 hover:text-blue-800 font-medium underline">
                         GitHub Source
                     </a>
                 </div>
             </div>
-            <p class="text-slate-400 text-[11px]">
+            <p data-i18n="footerBuildNote" class="text-slate-400 text-[11px]">
                 Built with zero build tools. Uses vanilla JS and Tailwind CSS. Hosted on GitHub Pages.
             </p>
         </footer>
