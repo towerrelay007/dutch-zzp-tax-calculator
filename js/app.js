@@ -225,133 +225,157 @@ export function setLanguage(lang) {
 
 // Main Recalculate and Render Function
 export function recalculateAndRender() {
-  // Sync year toggles
-  if (state.taxYear === 2026) {
-    elements.taxYear2026.classList.add('active');
-    elements.taxYear2026.classList.remove('text-slate-600');
-    elements.taxYear2025.classList.remove('active');
-    elements.taxYear2025.classList.add('text-slate-600');
-    elements.activeYearBadge.innerText = t('activeYearBadge', state.lang, { year: 2026 });
-    elements.zaLabel.innerText = t('zaLabel2026', state.lang);
-  } else {
-    elements.taxYear2025.classList.add('active');
-    elements.taxYear2025.classList.remove('text-slate-600');
-    elements.taxYear2026.classList.remove('active');
-    elements.taxYear2026.classList.add('text-slate-600');
-    elements.activeYearBadge.innerText = t('activeYearBadge', state.lang, { year: 2025 });
-    elements.zaLabel.innerText = t('zaLabel2025', state.lang);
-  }
-
-  // Sync mode views
-  if (state.calculationMode === 'annual') {
-    elements.modeAnnual.classList.add('bg-white', 'text-blue-600', 'font-semibold', 'shadow-xs');
-    elements.modeAnnual.classList.remove('text-slate-600');
-    elements.modeHourly.classList.remove('bg-white', 'text-blue-600', 'font-semibold', 'shadow-xs');
-    elements.modeHourly.classList.add('text-slate-600');
-    elements.hourlyModeGroup.classList.add('hidden');
-    elements.annualRevenueContainer.classList.remove('hidden');
-  } else {
-    elements.modeHourly.classList.add('bg-white', 'text-blue-600', 'font-semibold', 'shadow-xs');
-    elements.modeHourly.classList.remove('text-slate-600');
-    elements.modeAnnual.classList.remove('bg-white', 'text-blue-600', 'font-semibold', 'shadow-xs');
-    elements.modeAnnual.classList.add('text-slate-600');
-    elements.hourlyModeGroup.classList.remove('hidden');
-    elements.annualRevenueContainer.classList.add('hidden');
-  }
-
-  const hours = parseFloat(elements.billableHours.value) || 0;
-  const wkHours = (hours / 48).toFixed(1);
-  const days = ((hours / 48) / 8).toFixed(1);
-  elements.hoursDisplay.innerText = t('hoursDisplay', state.lang, { wkHours, days });
-
-  // Auto urencriterium assistance (auto-checks if >= 1225 unless manually modified)
-  if (!state.userOverrodeUrencriterium) {
-    elements.urencriterium.checked = hours >= 1225;
-  }
-
-  // Calculate inputs
-  const inputs = {
-    taxYear: state.taxYear,
-    calculationMode: state.calculationMode,
-    hourlyRate: parseFloat(elements.hourlyRate.value) || 0,
-    billableHours: hours,
-    annualRevenue: parseFloat(elements.annualRevenue.value) || 0,
-    operatingExpenses: parseFloat(elements.expenses.value) || 0,
-    aovInsurance: parseFloat(elements.aov.value) || 0,
-    pensionContribution: parseFloat(elements.pension.value) || 0,
-    hasUrencriterium: elements.urencriterium.checked,
-    hasStartersaftrek: elements.startersaftrek.checked
-  };
-
-  const res = calculateZZPTax(inputs);
-
-  // Render Hero
-  elements.netMonthly.innerText = formatCurrency(res.netMonthly, true);
-  elements.netAnnual.innerText = formatCurrency(res.netAnnual, true);
-  elements.effectiveRateBadge.innerText = t('taxRateBadge', state.lang, { rate: res.effectiveTaxRate.toFixed(1) });
-  elements.netMarginBadge.innerText = t('netMarginBadge', state.lang, { margin: res.netMargin.toFixed(1) });
-
-  // Render thetax.nl Period Summary
-  elements.tabButtons.forEach(btn => {
-    if (btn.dataset.period === state.activePeriod) {
-      btn.classList.add('active');
+  try {
+    // Sync year toggles
+    if (state.taxYear === 2026) {
+      if (elements.taxYear2026) {
+        elements.taxYear2026.classList.add('active');
+        elements.taxYear2026.classList.remove('text-slate-600');
+      }
+      if (elements.taxYear2025) {
+        elements.taxYear2025.classList.remove('active');
+        elements.taxYear2025.classList.add('text-slate-600');
+      }
+      if (elements.activeYearBadge) elements.activeYearBadge.innerText = t('activeYearBadge', state.lang, { year: 2026 });
+      if (elements.zaLabel) elements.zaLabel.innerText = t('zaLabel2026', state.lang);
     } else {
-      btn.classList.remove('active');
+      if (elements.taxYear2025) {
+        elements.taxYear2025.classList.add('active');
+        elements.taxYear2025.classList.remove('text-slate-600');
+      }
+      if (elements.taxYear2026) {
+        elements.taxYear2026.classList.remove('active');
+        elements.taxYear2026.classList.add('text-slate-600');
+      }
+      if (elements.activeYearBadge) elements.activeYearBadge.innerText = t('activeYearBadge', state.lang, { year: 2025 });
+      if (elements.zaLabel) elements.zaLabel.innerText = t('zaLabel2025', state.lang);
     }
-  });
 
-  const periodData = res.breakdownPeriods[state.activePeriod] || res.breakdownPeriods.month;
-  elements.periodGross.innerText = formatCurrency(periodData.revenue);
-  elements.periodExpenses.innerText = formatDeduction(periodData.expenses);
-  elements.periodTaxable.innerText = formatCurrency(periodData.profit);
-  elements.periodZvw.innerText = formatDeduction(periodData.zvw);
-  elements.periodTax.innerText = formatDeduction(periodData.tax);
-  elements.periodNet.innerText = formatCurrency(periodData.net, true);
+    // Sync mode views
+    if (state.calculationMode === 'annual') {
+      if (elements.modeAnnual) {
+        elements.modeAnnual.classList.add('bg-white', 'text-blue-600', 'font-semibold', 'shadow-xs');
+        elements.modeAnnual.classList.remove('text-slate-600');
+      }
+      if (elements.modeHourly) {
+        elements.modeHourly.classList.remove('bg-white', 'text-blue-600', 'font-semibold', 'shadow-xs');
+        elements.modeHourly.classList.add('text-slate-600');
+      }
+      if (elements.hourlyModeGroup) elements.hourlyModeGroup.classList.add('hidden');
+      if (elements.annualRevenueContainer) elements.annualRevenueContainer.classList.remove('hidden');
+    } else {
+      if (elements.modeHourly) {
+        elements.modeHourly.classList.add('bg-white', 'text-blue-600', 'font-semibold', 'shadow-xs');
+        elements.modeHourly.classList.remove('text-slate-600');
+      }
+      if (elements.modeAnnual) {
+        elements.modeAnnual.classList.remove('bg-white', 'text-blue-600', 'font-semibold', 'shadow-xs');
+        elements.modeAnnual.classList.add('text-slate-600');
+      }
+      if (elements.hourlyModeGroup) elements.hourlyModeGroup.classList.remove('hidden');
+      if (elements.annualRevenueContainer) elements.annualRevenueContainer.classList.add('hidden');
+    }
 
-  // Render Visual Distribution Bar
-  let netShare = 0;
-  let taxShare = 0;
-  let pensionShare = 0;
-  let expShare = 0;
+    const hours = parseFloat(elements.billableHours ? elements.billableHours.value : 1500) || 0;
+    const wkHours = (hours / 48).toFixed(1);
+    const days = ((hours / 48) / 8).toFixed(1);
+    if (elements.hoursDisplay) elements.hoursDisplay.innerText = t('hoursDisplay', state.lang, { wkHours, days });
 
-  if (res.grossRevenue > 0) {
-    netShare = Math.max(0, (res.netAnnual / res.grossRevenue) * 100);
-    taxShare = Math.max(0, ((res.finalBox1Tax + res.zvwContribution) / res.grossRevenue) * 100);
-    pensionShare = Math.max(0, (res.pensionDeduction / res.grossRevenue) * 100);
-    expShare = Math.max(0, (res.totalExpenses / res.grossRevenue) * 100);
+    // Auto urencriterium assistance (auto-checks if >= 1225 unless manually modified)
+    if (!state.userOverrodeUrencriterium && elements.urencriterium) {
+      elements.urencriterium.checked = hours >= 1225;
+    }
+
+    // Calculate inputs
+    const inputs = {
+      taxYear: state.taxYear,
+      calculationMode: state.calculationMode,
+      hourlyRate: parseFloat(elements.hourlyRate ? elements.hourlyRate.value : 0) || 0,
+      billableHours: hours,
+      annualRevenue: parseFloat(elements.annualRevenue ? elements.annualRevenue.value : 0) || 0,
+      operatingExpenses: parseFloat(elements.expenses ? elements.expenses.value : 0) || 0,
+      aovInsurance: parseFloat(elements.aov ? elements.aov.value : 0) || 0,
+      pensionContribution: parseFloat(elements.pension ? elements.pension.value : 0) || 0,
+      hasUrencriterium: elements.urencriterium ? elements.urencriterium.checked : true,
+      hasStartersaftrek: elements.startersaftrek ? elements.startersaftrek.checked : false
+    };
+
+    const res = calculateZZPTax(inputs);
+
+    // Render Hero
+    if (elements.netMonthly) elements.netMonthly.innerText = formatCurrency(res.netMonthly, true);
+    if (elements.netAnnual) elements.netAnnual.innerText = formatCurrency(res.netAnnual, true);
+    if (elements.effectiveRateBadge) elements.effectiveRateBadge.innerText = t('taxRateBadge', state.lang, { rate: res.effectiveTaxRate.toFixed(1) });
+    if (elements.netMarginBadge) elements.netMarginBadge.innerText = t('netMarginBadge', state.lang, { margin: res.netMargin.toFixed(1) });
+
+    // Render thetax.nl Period Summary
+    if (elements.tabButtons) {
+      elements.tabButtons.forEach(btn => {
+        if (btn.dataset.period === state.activePeriod) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    const periodData = res.breakdownPeriods[state.activePeriod] || res.breakdownPeriods.month;
+    if (elements.periodGross) elements.periodGross.innerText = formatCurrency(periodData.revenue);
+    if (elements.periodExpenses) elements.periodExpenses.innerText = formatDeduction(periodData.expenses);
+    if (elements.periodTaxable) elements.periodTaxable.innerText = formatCurrency(periodData.profit);
+    if (elements.periodZvw) elements.periodZvw.innerText = formatDeduction(periodData.zvw);
+    if (elements.periodTax) elements.periodTax.innerText = formatDeduction(periodData.tax);
+    if (elements.periodNet) elements.periodNet.innerText = formatCurrency(periodData.net, true);
+
+    // Render Visual Distribution Bar
+    let netShare = 0;
+    let taxShare = 0;
+    let pensionShare = 0;
+    let expShare = 0;
+
+    if (res.grossRevenue > 0) {
+      netShare = Math.max(0, (res.netAnnual / res.grossRevenue) * 100);
+      taxShare = Math.max(0, ((res.finalBox1Tax + res.zvwContribution) / res.grossRevenue) * 100);
+      pensionShare = Math.max(0, (res.pensionDeduction / res.grossRevenue) * 100);
+      expShare = Math.max(0, (res.totalExpenses / res.grossRevenue) * 100);
+    }
+
+    if (elements.distNetBar) elements.distNetBar.style.width = `${netShare.toFixed(1)}%`;
+    if (elements.distTaxBar) elements.distTaxBar.style.width = `${taxShare.toFixed(1)}%`;
+    if (elements.distPensionBar) elements.distPensionBar.style.width = `${pensionShare.toFixed(1)}%`;
+    if (elements.distExpBar) elements.distExpBar.style.width = `${expShare.toFixed(1)}%`;
+
+    if (elements.distNetLabel) elements.distNetLabel.innerText = `${netShare.toFixed(1)}%`;
+    if (elements.distTaxLabel) elements.distTaxLabel.innerText = `${taxShare.toFixed(1)}%`;
+    if (elements.distPensionLabel) elements.distPensionLabel.innerText = `${pensionShare.toFixed(1)}%`;
+    if (elements.distExpLabel) elements.distExpLabel.innerText = `${expShare.toFixed(1)}%`;
+
+    // Render Step-by-Step Table
+    if (elements.outRevenue) elements.outRevenue.innerText = formatCurrency(res.grossRevenue);
+    if (elements.outExpenses) elements.outExpenses.innerText = formatDeduction(res.totalExpenses);
+    if (elements.outProfitBefore) elements.outProfitBefore.innerText = formatCurrency(res.profitBeforeDeductions);
+    if (elements.outZA) elements.outZA.innerText = formatDeduction(res.zelfstandigenaftrek);
+    if (elements.outStarters) elements.outStarters.innerText = formatDeduction(res.startersaftrek);
+    if (elements.outMKB) elements.outMKB.innerText = formatDeduction(res.mkbWinstvrijstelling);
+    if (elements.outTaxableProfit) elements.outTaxableProfit.innerText = formatCurrency(res.taxableProfit);
+
+    if (elements.zvwLabel) elements.zvwLabel.innerText = t('rowZvw', state.lang, { rate: (res.zvwRate * 100).toFixed(2) });
+    if (elements.zvwTooltip) {
+      elements.zvwTooltip.title = `Applied up to €${res.zvwCap.toLocaleString('nl-NL')} cap. Max contribution: €${Math.round(res.zvwCap * res.zvwRate).toLocaleString('nl-NL')}`;
+    }
+    if (elements.outZvw) elements.outZvw.innerText = formatDeduction(res.zvwContribution);
+
+    if (elements.outPensionDed) elements.outPensionDed.innerText = formatDeduction(res.pensionDeduction);
+    if (elements.outTaxableIncome) elements.outTaxableIncome.innerText = formatCurrency(res.taxableIncomeBox1);
+    if (elements.outBox1Gross) elements.outBox1Gross.innerText = formatCurrency(res.box1GrossTax);
+    if (elements.outCredits) elements.outCredits.innerText = formatDeduction(res.totalTaxCredits);
+    if (elements.outTax) elements.outTax.innerText = formatDeduction(res.finalBox1Tax);
+    if (elements.outNetTakeHome) elements.outNetTakeHome.innerText = formatCurrency(res.netAnnual, true);
+
+    updateHash();
+  } catch (err) {
+    console.error('Error during recalculateAndRender:', err);
   }
-
-  elements.distNetBar.style.width = `${netShare.toFixed(1)}%`;
-  elements.distTaxBar.style.width = `${taxShare.toFixed(1)}%`;
-  elements.distPensionBar.style.width = `${pensionShare.toFixed(1)}%`;
-  elements.distExpBar.style.width = `${expShare.toFixed(1)}%`;
-
-  elements.distNetLabel.innerText = `${netShare.toFixed(1)}%`;
-  elements.distTaxLabel.innerText = `${taxShare.toFixed(1)}%`;
-  elements.distPensionLabel.innerText = `${pensionShare.toFixed(1)}%`;
-  elements.distExpLabel.innerText = `${expShare.toFixed(1)}%`;
-
-  // Render Step-by-Step Table
-  elements.outRevenue.innerText = formatCurrency(res.grossRevenue);
-  elements.outExpenses.innerText = formatDeduction(res.totalExpenses);
-  elements.outProfitBefore.innerText = formatCurrency(res.profitBeforeDeductions);
-  elements.outZA.innerText = formatDeduction(res.zelfstandigenaftrek);
-  elements.outStarters.innerText = formatDeduction(res.startersaftrek);
-  elements.outMKB.innerText = formatDeduction(res.mkbWinstvrijstelling);
-  elements.outTaxableProfit.innerText = formatCurrency(res.taxableProfit);
-
-  elements.zvwLabel.innerText = t('rowZvw', state.lang, { rate: (res.zvwRate * 100).toFixed(2) });
-  elements.zvwTooltip.title = `Applied up to €${res.zvwCap.toLocaleString('nl-NL')} cap. Max contribution: €${Math.round(res.zvwCap * res.zvwRate).toLocaleString('nl-NL')}`;
-  elements.outZvw.innerText = formatDeduction(res.zvwContribution);
-
-  elements.outPensionDed.innerText = formatDeduction(res.pensionDeduction);
-  elements.outTaxableIncome.innerText = formatCurrency(res.taxableIncomeBox1);
-  elements.outBox1Gross.innerText = formatCurrency(res.box1GrossTax);
-  elements.outCredits.innerText = formatDeduction(res.totalTaxCredits);
-  elements.outTax.innerText = formatDeduction(res.finalBox1Tax);
-  elements.outNetTakeHome.innerText = formatCurrency(res.netAnnual, true);
-
-  updateHash();
 }
 
 // Bind Event Listeners

@@ -100,7 +100,7 @@
         <main class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start">
             
             <!-- LEFT COLUMN: Compact Business Inputs Card (All visible without scrolling on 13" MacBook) -->
-            <div class="lg:col-span-5 bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 space-y-3">
+            <div class="lg:col-span-5 bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-2.5">
                 
                 <!-- Inputs Header & Mode Toggle -->
                 <div class="flex items-center justify-between border-b border-slate-100 pb-2">
@@ -114,25 +114,26 @@
                     </div>
                 </div>
 
-                <!-- Hourly Mode Inputs (2-column on sm+) -->
-                <div id="hourlyModeGroup" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <!-- Hourly Mode Inputs (Vertical) -->
+                <div id="hourlyModeGroup" class="space-y-2.5">
                     <!-- Hourly Rate -->
                     <div>
                         <div class="flex justify-between items-center mb-1">
                             <label for="hourlyRate" data-i18n="hourlyRateLabel" class="text-xs font-semibold text-slate-700">Hourly Rate (€)</label>
-                            <span data-i18n="exBtw" class="text-[10px] text-slate-400">excl. btw</span>
+                            <div class="flex items-center gap-1.5">
+                                <div class="flex gap-1">
+                                    <button type="button" class="preset-chip text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="85">€85</button>
+                                    <button type="button" class="preset-chip text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="105">€105</button>
+                                    <button type="button" class="preset-chip text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="135">€135</button>
+                                    <button type="button" class="preset-chip text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="160">€160</button>
+                                </div>
+                                <span data-i18n="exBtw" class="text-[10px] text-slate-400">excl. btw</span>
+                            </div>
                         </div>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 font-semibold text-xs">€</span>
                             <input type="number" id="hourlyRate" value="135" min="10" max="1000" step="1" 
                                 class="w-full pl-6 pr-2 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none font-bold text-slate-900 text-sm transition-all">
-                        </div>
-                        <!-- Rate Preset Chips -->
-                        <div class="flex gap-1 mt-1.5">
-                            <button type="button" class="preset-chip text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="85">€85</button>
-                            <button type="button" class="preset-chip text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="105">€105</button>
-                            <button type="button" class="preset-chip text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="135">€135</button>
-                            <button type="button" class="preset-chip text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="160">€160</button>
                         </div>
                     </div>
 
@@ -140,10 +141,10 @@
                     <div>
                         <div class="flex justify-between items-center mb-1">
                             <label for="billableHours" data-i18n="billableHoursLabel" class="text-xs font-semibold text-slate-700">Hours / Year</label>
+                            <span id="hoursDisplay" class="text-[10px] font-semibold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100 font-mono-num truncate max-w-[200px]">31.3 hrs/wk (~3.9 days)</span>
                         </div>
                         <input type="number" id="billableHours" value="1500" min="0" max="3000" step="10" 
                             class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none font-semibold text-slate-900 text-sm transition-all">
-                        <span id="hoursDisplay" class="inline-block mt-1 text-[10px] font-semibold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100 font-mono-num truncate max-w-full">31.3 hrs/wk (~3.9 days)</span>
                     </div>
                 </div>
 
@@ -160,50 +161,47 @@
                     </div>
                 </div>
 
-                <!-- Operating Expenses & AOV Insurance (2-column on sm+) -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <!-- Operating Expenses -->
-                    <div>
-                        <div class="flex items-center justify-between mb-1">
-                            <label for="expenses" data-i18n="expensesLabel" class="text-xs font-semibold text-slate-700 truncate">Expenses (€/yr)</label>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 font-semibold text-xs">€</span>
-                            <input type="number" id="expenses" value="10000" min="0" max="200000" step="250" 
-                                class="w-full pl-6 pr-2 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 text-sm transition-all">
-                        </div>
+                <!-- Operating Expenses (Vertical) -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label for="expenses" data-i18n="expensesLabel" class="text-xs font-semibold text-slate-700">Operating Expenses (€ / year)</label>
                     </div>
-
-                    <!-- AOV Disability Insurance -->
-                    <div>
-                        <div class="flex items-center justify-between mb-1">
-                            <div class="flex items-center gap-1">
-                                <label for="aov" data-i18n="aovLabel" class="text-xs font-semibold text-slate-700 truncate">AOV Insurance (€/yr)</label>
-                                <!-- Tooltip -->
-                                <div class="tip-container">
-                                    <button type="button" class="text-slate-400 hover:text-blue-600 transition-colors p-0.5 rounded-full focus:outline-none cursor-pointer" aria-label="AOV Explanation">
-                                        <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                    <div class="tip-box">
-                                        <div class="bg-slate-900/95 backdrop-blur-md text-white text-[11px] font-normal px-3 py-2 rounded-xl shadow-2xl border border-slate-700/80 leading-relaxed text-center" data-i18n="tipAOV">
-                                            Premiums paid for an individual disability insurance policy (AOV) are 100% tax-deductible in Box 1.
-                                        </div>
-                                        <div class="w-2 h-2 bg-slate-900 rotate-45 -mt-1 border-r border-b border-slate-700/80"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 font-semibold text-xs">€</span>
-                            <input type="number" id="aov" value="5000" min="0" max="50000" step="250" 
-                                class="w-full pl-6 pr-2 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 text-sm transition-all">
-                        </div>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 font-semibold text-xs">€</span>
+                        <input type="number" id="expenses" value="10000" min="0" max="200000" step="250" 
+                            class="w-full pl-6 pr-2 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 text-sm transition-all">
                     </div>
                 </div>
 
-                <!-- Pension / Lijfrente -->
+                <!-- AOV Disability Insurance (Vertical) -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <div class="flex items-center gap-1">
+                            <label for="aov" data-i18n="aovLabel" class="text-xs font-semibold text-slate-700">AOV Disability Insurance (€ / year)</label>
+                            <!-- Tooltip -->
+                            <div class="tip-container">
+                                <button type="button" class="text-slate-400 hover:text-blue-600 transition-colors p-0.5 rounded-full focus:outline-none cursor-pointer" aria-label="AOV Explanation">
+                                    <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                                <div class="tip-box">
+                                    <div class="bg-slate-900/95 backdrop-blur-md text-white text-[11px] font-normal px-3 py-2 rounded-xl shadow-2xl border border-slate-700/80 leading-relaxed text-center" data-i18n="tipAOV">
+                                        Premiums paid for an individual disability insurance policy (AOV) are 100% tax-deductible in Box 1.
+                                    </div>
+                                    <div class="w-2 h-2 bg-slate-900 rotate-45 -mt-1 border-r border-b border-slate-700/80"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 font-semibold text-xs">€</span>
+                        <input type="number" id="aov" value="5000" min="0" max="50000" step="250" 
+                            class="w-full pl-6 pr-2 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 text-sm transition-all">
+                    </div>
+                </div>
+
+                <!-- Pension / Lijfrente (Vertical) -->
                 <div>
                     <div class="flex items-center justify-between mb-1">
                         <div class="flex items-center gap-1">
@@ -231,13 +229,13 @@
                     </div>
                 </div>
 
-                <!-- Entrepreneur Toggles in 2-column grid -->
-                <div class="pt-2 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <!-- Entrepreneur Toggles (Vertical stack) -->
+                <div class="pt-2 border-t border-slate-100 space-y-1.5">
                     <!-- Urencriterium -->
-                    <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-100">
+                    <div class="flex items-center justify-between p-1.5 px-2.5 rounded-lg bg-slate-50 border border-slate-100">
                         <div class="pr-1 min-w-0">
                             <div class="flex items-center gap-1">
-                                <span data-i18n="urencriteriumTitle" class="text-xs font-bold text-slate-800 truncate block">Urencriterium (≥1225h)</span>
+                                <span data-i18n="urencriteriumTitle" class="text-xs font-bold text-slate-800 truncate block">Urencriterium (≥ 1,225 hrs)</span>
                                 <!-- Tooltip -->
                                 <div class="tip-container">
                                     <button type="button" class="text-slate-400 hover:text-blue-600 transition-colors p-0.5 rounded-full focus:outline-none cursor-pointer" aria-label="Urencriterium Explanation">
@@ -259,7 +257,7 @@
                     </div>
 
                     <!-- Startersaftrek -->
-                    <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-100">
+                    <div class="flex items-center justify-between p-1.5 px-2.5 rounded-lg bg-slate-50 border border-slate-100">
                         <div class="pr-1 min-w-0">
                             <div class="flex items-center gap-1">
                                 <span data-i18n="startersaftrekTitle" class="text-xs font-bold text-slate-800 truncate block">Startersaftrek</span>
@@ -497,7 +495,7 @@
                                 <span class="text-slate-600" id="zvwLabel">Zvw Healthcare Tax</span>
                                 <!-- Tooltip -->
                                 <div class="tip-container">
-                                    <button type="button" class="text-slate-400 hover:text-blue-600 transition-colors p-0.5 rounded-full focus:outline-none cursor-pointer" aria-label="Zvw Explanation">
+                                    <button type="button" id="zvwTooltip" class="text-slate-400 hover:text-blue-600 transition-colors p-0.5 rounded-full focus:outline-none cursor-pointer" aria-label="Zvw Explanation">
                                         <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                                         </svg>
