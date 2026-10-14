@@ -41,7 +41,7 @@
             flex-direction: column;
             align-items: center;
             z-index: 100;
-            width: 17rem;
+            width: 16rem;
             pointer-events: none;
         }
         .tip-container:hover .tip-box,
@@ -55,46 +55,41 @@
         }
     </style>
 </head>
-<body class="min-h-full text-slate-800 antialiased p-4 md:p-8 lg:p-10 flex flex-col justify-between">
+<body class="min-h-full text-slate-800 antialiased px-3 py-3 sm:px-5 sm:py-4 md:px-8 md:py-5 flex flex-col justify-between">
     <div class="max-w-6xl mx-auto w-full">
         
-        <!-- Header -->
-        <header class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200 pb-6">
-            <div>
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl">🇳🇱</span>
-                    <h1 data-i18n="appTitle" class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900">
-                        Dutch ZZP Tax Calculator
-                    </h1>
-                    <span data-i18n="thetaxBadge" class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full ml-1">thetax style</span>
-                </div>
-                <p data-i18n="appSubtitle" class="text-slate-500 text-sm mt-1">
-                    Calculate net take-home pay, Box 1 income tax, Zvw healthcare tax, and deductions for Dutch sole proprietors (<em class="italic">eenmanszaken</em>).
-                </p>
+        <!-- Compact Modern Header -->
+        <header class="mb-4 pb-3 border-b border-slate-200/90 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">🇳🇱</span>
+                <h1 data-i18n="appTitle" class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
+                    Dutch ZZP Tax Calculator
+                </h1>
+                <span data-i18n="thetaxBadge" class="hidden sm:inline-block bg-blue-100 text-blue-800 text-[11px] font-semibold px-2 py-0.5 rounded-full">thetax style</span>
             </div>
 
             <!-- Tax Year, Language & Action Controls -->
-            <div class="flex flex-wrap items-center gap-2.5 self-start md:self-auto">
+            <div class="flex flex-wrap items-center gap-2 self-start sm:self-auto">
                 <!-- Language Switcher -->
-                <div class="bg-slate-200/80 p-1 rounded-xl flex items-center text-xs font-bold shadow-inner">
-                    <button type="button" id="langEN" class="lang-btn active px-2.5 py-1.5 rounded-lg transition-all cursor-pointer">🇬🇧 EN</button>
-                    <button type="button" id="langNL" class="lang-btn text-slate-600 px-2.5 py-1.5 rounded-lg transition-all hover:text-slate-900 cursor-pointer">🇳🇱 NL</button>
+                <div class="bg-slate-200/80 p-0.5 rounded-lg flex items-center text-xs font-bold shadow-inner">
+                    <button type="button" id="langEN" class="lang-btn active px-2 py-1 rounded-md transition-all cursor-pointer">🇬🇧 EN</button>
+                    <button type="button" id="langNL" class="lang-btn text-slate-600 px-2 py-1 rounded-md transition-all hover:text-slate-900 cursor-pointer">🇳🇱 NL</button>
                 </div>
 
                 <!-- Year Switcher -->
-                <div class="bg-slate-200/80 p-1 rounded-xl flex items-center text-xs font-bold shadow-inner">
-                    <button type="button" id="taxYear2026" class="year-btn active px-3 py-1.5 rounded-lg transition-all cursor-pointer">2026</button>
-                    <button type="button" id="taxYear2025" class="year-btn text-slate-600 px-3 py-1.5 rounded-lg transition-all hover:text-slate-900 cursor-pointer">2025</button>
+                <div class="bg-slate-200/80 p-0.5 rounded-lg flex items-center text-xs font-bold shadow-inner">
+                    <button type="button" id="taxYear2026" class="year-btn active px-2.5 py-1 rounded-md transition-all cursor-pointer">2026</button>
+                    <button type="button" id="taxYear2025" class="year-btn text-slate-600 px-2.5 py-1 rounded-md transition-all hover:text-slate-900 cursor-pointer">2025</button>
                 </div>
 
                 <!-- Share Link -->
-                <button type="button" id="btnCopyLink" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 bg-white border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition-all shadow-sm active:scale-95 cursor-pointer">
+                <button type="button" id="btnCopyLink" class="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition-all shadow-xs active:scale-95 cursor-pointer">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                     <span data-i18n="shareBtn">Share</span>
                 </button>
 
                 <!-- Reset -->
-                <button type="button" id="btnReset" class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-2 bg-white border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-red-600 transition-all shadow-sm cursor-pointer" title="Reset all fields to defaults">
+                <button type="button" id="btnReset" class="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 hover:text-red-600 transition-all shadow-xs cursor-pointer" title="Reset all fields to defaults">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                     <span data-i18n="resetBtn">Reset</span>
                 </button>
@@ -102,113 +97,117 @@
         </header>
 
         <!-- Main Layout Grid -->
-        <main class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start">
             
-            <!-- LEFT COLUMN: Inputs Card -->
-            <div class="lg:col-span-5 bg-white p-6 md:p-7 rounded-3xl shadow-sm border border-slate-200/80 space-y-5">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h2 data-i18n="businessInputsTitle" class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <!-- LEFT COLUMN: Compact Business Inputs Card (All visible without scrolling on 13" MacBook) -->
+            <div class="lg:col-span-5 bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 space-y-3">
+                
+                <!-- Inputs Header & Mode Toggle -->
+                <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                    <h2 data-i18n="businessInputsTitle" class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
                         💼 Business Inputs
                     </h2>
                     <!-- Input Mode Toggle -->
                     <div class="bg-slate-100 p-0.5 rounded-lg flex text-xs font-medium text-slate-600">
-                        <button type="button" id="modeHourly" data-i18n="modeHourly" class="px-2.5 py-1 rounded-md bg-white text-blue-600 font-semibold shadow-xs cursor-pointer">Hourly Rate</button>
-                        <button type="button" id="modeAnnual" data-i18n="modeAnnual" class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 cursor-pointer">Annual Revenue</button>
+                        <button type="button" id="modeHourly" data-i18n="modeHourly" class="px-2 py-0.5 rounded-md bg-white text-blue-600 font-semibold shadow-xs cursor-pointer text-xs">Hourly Rate</button>
+                        <button type="button" id="modeAnnual" data-i18n="modeAnnual" class="px-2 py-0.5 rounded-md text-slate-600 hover:text-slate-900 cursor-pointer text-xs">Annual Revenue</button>
                     </div>
                 </div>
 
-                <!-- Hourly Mode Inputs -->
-                <div id="hourlyModeGroup" class="space-y-4">
+                <!-- Hourly Mode Inputs (2-column on sm+) -->
+                <div id="hourlyModeGroup" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <!-- Hourly Rate -->
                     <div>
-                        <div class="flex justify-between items-center mb-1.5">
-                            <label for="hourlyRate" data-i18n="hourlyRateLabel" class="text-sm font-semibold text-slate-700">Hourly Rate (€ / hr ex. VAT)</label>
-                            <span data-i18n="exBtw" class="text-xs text-slate-400">excl. 21% btw</span>
+                        <div class="flex justify-between items-center mb-1">
+                            <label for="hourlyRate" data-i18n="hourlyRateLabel" class="text-xs font-semibold text-slate-700">Hourly Rate (€)</label>
+                            <span data-i18n="exBtw" class="text-[10px] text-slate-400">excl. btw</span>
                         </div>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">€</span>
+                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 font-semibold text-xs">€</span>
                             <input type="number" id="hourlyRate" value="135" min="10" max="1000" step="1" 
-                                class="w-full pl-8 pr-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none font-bold text-slate-900 text-lg transition-all">
+                                class="w-full pl-6 pr-2 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none font-bold text-slate-900 text-sm transition-all">
                         </div>
                         <!-- Rate Preset Chips -->
-                        <div class="flex gap-2 mt-2">
-                            <button type="button" class="preset-chip text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="85">€85</button>
-                            <button type="button" class="preset-chip text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="105">€105</button>
-                            <button type="button" class="preset-chip text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="135">€135</button>
-                            <button type="button" class="preset-chip text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="160">€160</button>
+                        <div class="flex gap-1 mt-1.5">
+                            <button type="button" class="preset-chip text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="85">€85</button>
+                            <button type="button" class="preset-chip text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="105">€105</button>
+                            <button type="button" class="preset-chip text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="135">€135</button>
+                            <button type="button" class="preset-chip text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer" data-rate="160">€160</button>
                         </div>
                     </div>
 
                     <!-- Billable Hours -->
                     <div>
-                        <div class="flex justify-between items-center mb-1.5">
-                            <label for="billableHours" data-i18n="billableHoursLabel" class="text-sm font-semibold text-slate-700">Billable Hours / Year</label>
-                            <span id="hoursDisplay" class="text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100 font-mono-num">31.3 hrs/wk (~3.9 days)</span>
+                        <div class="flex justify-between items-center mb-1">
+                            <label for="billableHours" data-i18n="billableHoursLabel" class="text-xs font-semibold text-slate-700">Hours / Year</label>
                         </div>
                         <input type="number" id="billableHours" value="1500" min="0" max="3000" step="10" 
-                            class="w-full px-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none font-semibold text-slate-900 text-lg transition-all">
-                        <p data-i18n="billableHoursHelp" class="text-xs text-slate-500 mt-1">Full-time standard freelance is ~1,400 to 1,600 billable hours across 48 weeks.</p>
+                            class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none font-semibold text-slate-900 text-sm transition-all">
+                        <span id="hoursDisplay" class="inline-block mt-1 text-[10px] font-semibold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100 font-mono-num truncate max-w-full">31.3 hrs/wk (~3.9 days)</span>
                     </div>
                 </div>
 
                 <!-- Annual Mode Input (Hidden by default) -->
                 <div id="annualRevenueContainer" class="hidden">
-                    <div class="flex justify-between items-center mb-1.5">
-                        <label for="annualRevenue" data-i18n="annualRevenueLabel" class="text-sm font-semibold text-slate-700">Annual Gross Turnover (€)</label>
-                        <span data-i18n="annualRevenueHelp" class="text-xs text-slate-400">excl. VAT / BTW</span>
+                    <div class="flex justify-between items-center mb-1">
+                        <label for="annualRevenue" data-i18n="annualRevenueLabel" class="text-xs font-semibold text-slate-700">Annual Gross Turnover (€)</label>
+                        <span data-i18n="annualRevenueHelp" class="text-[10px] text-slate-400">excl. VAT / BTW</span>
                     </div>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">€</span>
+                        <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 font-semibold text-xs">€</span>
                         <input type="number" id="annualRevenue" value="202500" min="0" max="2000000" step="1000" 
-                            class="w-full pl-8 pr-4 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none font-bold text-slate-900 text-lg transition-all">
+                            class="w-full pl-6 pr-2 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none font-bold text-slate-900 text-sm transition-all">
                     </div>
                 </div>
 
-                <!-- Operating Expenses -->
-                <div>
-                    <label for="expenses" data-i18n="expensesLabel" class="block text-sm font-semibold text-slate-700 mb-1.5">Operating Expenses (€ / year)</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">€</span>
-                        <input type="number" id="expenses" value="10000" min="0" max="200000" step="250" 
-                            class="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 transition-all">
+                <!-- Operating Expenses & AOV Insurance (2-column on sm+) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <!-- Operating Expenses -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="expenses" data-i18n="expensesLabel" class="text-xs font-semibold text-slate-700 truncate">Expenses (€/yr)</label>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 font-semibold text-xs">€</span>
+                            <input type="number" id="expenses" value="10000" min="0" max="200000" step="250" 
+                                class="w-full pl-6 pr-2 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 text-sm transition-all">
+                        </div>
                     </div>
-                    <p data-i18n="expensesHelp" class="text-xs text-slate-500 mt-1">Equipment, laptop, accountant, software, subscriptions, mobile, travel.</p>
-                </div>
 
-                <!-- AOV Disability Insurance -->
-                <div>
-                    <div class="flex items-center justify-between mb-1.5">
-                        <div class="flex items-center gap-1">
-                            <label for="aov" data-i18n="aovLabel" class="text-sm font-semibold text-slate-700">AOV Disability Insurance (€ / year)</label>
-                            <!-- Tooltip -->
-                            <div class="tip-container">
-                                <button type="button" class="text-slate-400 hover:text-blue-600 transition-colors p-0.5 rounded-full focus:outline-none cursor-pointer" aria-label="AOV Explanation">
-                                    <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                                <div class="tip-box">
-                                    <div class="bg-slate-900/95 backdrop-blur-md text-white text-[11px] font-normal px-3 py-2 rounded-xl shadow-2xl border border-slate-700/80 leading-relaxed text-center" data-i18n="tipAOV">
-                                        Premiums paid for an individual disability insurance policy (AOV) are 100% tax-deductible in Box 1.
+                    <!-- AOV Disability Insurance -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <div class="flex items-center gap-1">
+                                <label for="aov" data-i18n="aovLabel" class="text-xs font-semibold text-slate-700 truncate">AOV Insurance (€/yr)</label>
+                                <!-- Tooltip -->
+                                <div class="tip-container">
+                                    <button type="button" class="text-slate-400 hover:text-blue-600 transition-colors p-0.5 rounded-full focus:outline-none cursor-pointer" aria-label="AOV Explanation">
+                                        <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                    <div class="tip-box">
+                                        <div class="bg-slate-900/95 backdrop-blur-md text-white text-[11px] font-normal px-3 py-2 rounded-xl shadow-2xl border border-slate-700/80 leading-relaxed text-center" data-i18n="tipAOV">
+                                            Premiums paid for an individual disability insurance policy (AOV) are 100% tax-deductible in Box 1.
+                                        </div>
+                                        <div class="w-2 h-2 bg-slate-900 rotate-45 -mt-1 border-r border-b border-slate-700/80"></div>
                                     </div>
-                                    <div class="w-2 h-2 bg-slate-900 rotate-45 -mt-1 border-r border-b border-slate-700/80"></div>
                                 </div>
                             </div>
                         </div>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 font-semibold text-xs">€</span>
+                            <input type="number" id="aov" value="5000" min="0" max="50000" step="250" 
+                                class="w-full pl-6 pr-2 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 text-sm transition-all">
+                        </div>
                     </div>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">€</span>
-                        <input type="number" id="aov" value="5000" min="0" max="50000" step="250" 
-                            class="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 transition-all">
-                    </div>
-                    <p data-i18n="aovHelp" class="text-xs text-slate-500 mt-1">Arbeidsongeschiktheidsverzekering premiums are 100% tax-deductible.</p>
                 </div>
 
                 <!-- Pension / Lijfrente -->
                 <div>
-                    <div class="flex items-center justify-between mb-1.5">
+                    <div class="flex items-center justify-between mb-1">
                         <div class="flex items-center gap-1">
-                            <label for="pension" data-i18n="pensionLabel" class="text-sm font-semibold text-slate-700">Pension / Lijfrente (€ / year)</label>
+                            <label for="pension" data-i18n="pensionLabel" class="text-xs font-semibold text-slate-700">Pension / Lijfrente (€ / year)</label>
                             <!-- Tooltip -->
                             <div class="tip-container">
                                 <button type="button" class="text-slate-400 hover:text-blue-600 transition-colors p-0.5 rounded-full focus:outline-none cursor-pointer" aria-label="Pension Explanation">
@@ -226,20 +225,19 @@
                         </div>
                     </div>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-semibold">€</span>
+                        <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 font-semibold text-xs">€</span>
                         <input type="number" id="pension" value="15000" min="0" max="100000" step="500" 
-                            class="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 transition-all">
+                            class="w-full pl-6 pr-2 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium text-slate-800 text-sm transition-all">
                     </div>
-                    <p data-i18n="pensionHelp" class="text-xs text-slate-500 mt-1">Tax-deductible retirement deposit (jaarruimte / reserveringsruimte).</p>
                 </div>
 
-                <!-- Entrepreneur Toggles Card -->
-                <div class="pt-3 border-t border-slate-100 space-y-3">
+                <!-- Entrepreneur Toggles in 2-column grid -->
+                <div class="pt-2 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <!-- Urencriterium -->
-                    <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-100">
-                        <div>
-                            <div class="flex items-center gap-1.5">
-                                <span data-i18n="urencriteriumTitle" class="text-sm font-bold text-slate-800 block">Urencriterium (≥ 1,225 hrs)</span>
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-100">
+                        <div class="pr-1 min-w-0">
+                            <div class="flex items-center gap-1">
+                                <span data-i18n="urencriteriumTitle" class="text-xs font-bold text-slate-800 truncate block">Urencriterium (≥1225h)</span>
                                 <!-- Tooltip -->
                                 <div class="tip-container">
                                     <button type="button" class="text-slate-400 hover:text-blue-600 transition-colors p-0.5 rounded-full focus:outline-none cursor-pointer" aria-label="Urencriterium Explanation">
@@ -255,16 +253,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <span id="zaLabel" class="text-xs text-slate-500">Unlocks €1,200 Zelfstandigenaftrek</span>
+                            <span id="zaLabel" class="text-[10px] text-slate-500 truncate block">€1,200 Zelfstandigenaftrek</span>
                         </div>
-                        <input type="checkbox" id="urencriterium" checked class="w-5 h-5 text-blue-600 rounded-md focus:ring-blue-500 cursor-pointer">
+                        <input type="checkbox" id="urencriterium" checked class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer shrink-0">
                     </div>
 
                     <!-- Startersaftrek -->
-                    <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-100">
-                        <div>
-                            <div class="flex items-center gap-1.5">
-                                <span data-i18n="startersaftrekTitle" class="text-sm font-bold text-slate-800 block">Startersaftrek</span>
+                    <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-100">
+                        <div class="pr-1 min-w-0">
+                            <div class="flex items-center gap-1">
+                                <span data-i18n="startersaftrekTitle" class="text-xs font-bold text-slate-800 truncate block">Startersaftrek</span>
                                 <!-- Tooltip -->
                                 <div class="tip-container">
                                     <button type="button" class="text-slate-400 hover:text-blue-600 transition-colors p-0.5 rounded-full focus:outline-none cursor-pointer" aria-label="Startersaftrek Explanation">
@@ -280,133 +278,133 @@
                                     </div>
                                 </div>
                             </div>
-                            <span data-i18n="startersaftrekSub" class="text-xs text-slate-500">Extra €2,123 deduction (first 3 yrs)</span>
+                            <span data-i18n="startersaftrekSub" class="text-[10px] text-slate-500 truncate block">+€2,123 (first 3 yrs)</span>
                         </div>
-                        <input type="checkbox" id="startersaftrek" class="w-5 h-5 text-blue-600 rounded-md focus:ring-blue-500 cursor-pointer">
+                        <input type="checkbox" id="startersaftrek" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer shrink-0">
                     </div>
                 </div>
             </div>
 
             <!-- RIGHT COLUMN: Results & thetax.nl Style Breakdowns -->
-            <div class="lg:col-span-7 space-y-6">
+            <div class="lg:col-span-7 space-y-4">
                 
-                <!-- Main Take-Home Banner -->
-                <div class="bg-gradient-to-br from-blue-600 via-indigo-600 to-slate-900 text-white p-7 rounded-3xl shadow-lg relative overflow-hidden">
-                    <div class="absolute -right-8 -top-8 w-44 h-44 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+                <!-- Main Take-Home Banner (Sleek & Compact) -->
+                <div class="bg-gradient-to-br from-blue-600 via-indigo-600 to-slate-900 text-white p-4 sm:p-5 rounded-2xl shadow-md relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-36 h-36 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
                     
-                    <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center justify-between mb-1.5">
                         <span data-i18n="takeHomeHeader" class="text-blue-200 text-xs font-bold uppercase tracking-wider">Estimated Net Take-Home</span>
-                        <div class="flex items-center gap-2">
-                            <span id="effectiveRateBadge" class="bg-white/20 backdrop-blur-md text-white text-xs font-semibold px-2.5 py-1 rounded-full font-mono-num">32% Tax Rate</span>
-                            <span id="netMarginBadge" class="bg-emerald-500/20 text-emerald-200 text-xs font-semibold px-2.5 py-1 rounded-full font-mono-num">50% Net Margin</span>
+                        <div class="flex items-center gap-1.5">
+                            <span id="effectiveRateBadge" class="bg-white/20 backdrop-blur-md text-white text-[11px] font-semibold px-2 py-0.5 rounded-full font-mono-num">32% Tax Rate</span>
+                            <span id="netMarginBadge" class="bg-emerald-500/20 text-emerald-200 text-[11px] font-semibold px-2 py-0.5 rounded-full font-mono-num">50% Net Margin</span>
                         </div>
                     </div>
 
-                    <div class="mt-4 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-4">
+                    <div class="mt-2 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
                         <div>
-                            <span id="netMonthly" class="text-4xl md:text-5xl font-black tracking-tight font-mono-num text-white">€0</span>
-                            <span data-i18n="perMonth" class="text-blue-200 text-lg font-medium ml-1">/ month</span>
+                            <span id="netMonthly" class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight font-mono-num text-white">€0</span>
+                            <span data-i18n="perMonth" class="text-blue-200 text-base sm:text-lg font-medium ml-1">/ month</span>
                         </div>
-                        <div class="sm:text-right border-t sm:border-t-0 border-white/10 pt-3 sm:pt-0">
-                            <span id="netAnnual" class="text-2xl md:text-3xl font-extrabold font-mono-num text-emerald-300">€0</span>
-                            <span data-i18n="annualNetCash" class="text-blue-200 text-xs block font-medium">annual net cash in pocket</span>
+                        <div class="sm:text-right border-t sm:border-t-0 border-white/10 pt-2 sm:pt-0">
+                            <span id="netAnnual" class="text-xl sm:text-2xl md:text-3xl font-extrabold font-mono-num text-emerald-300">€0</span>
+                            <span data-i18n="annualNetCash" class="text-blue-200 text-[11px] block font-medium">annual net cash</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- thetax.nl-style Period Breakdown Tabs Card -->
-                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80">
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-                        <h3 data-i18n="periodBreakdownTitle" class="text-base font-bold text-slate-900 flex items-center gap-2">
+                <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 mb-3">
+                        <h3 data-i18n="periodBreakdownTitle" class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
                             ⏱️ Period Breakdown
                         </h3>
                         <!-- Tabs -->
-                        <div class="inline-flex p-1 bg-slate-100 rounded-xl text-xs font-semibold text-slate-600 overflow-x-auto">
-                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all cursor-pointer" data-period="year" id="tabYear" data-i18n="tabYear">Year</button>
-                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all cursor-pointer" data-period="quarter" id="tabQuarter" data-i18n="tabQuarter">Quarter</button>
-                            <button type="button" class="tab-btn active px-3 py-1.5 rounded-lg transition-all cursor-pointer" data-period="month" id="tabMonth" data-i18n="tabMonth">Month</button>
-                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all cursor-pointer" data-period="week" id="tabWeek" data-i18n="tabWeek">Week</button>
-                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all cursor-pointer" data-period="day" id="tabDay" data-i18n="tabDay">Day</button>
-                            <button type="button" class="tab-btn px-3 py-1.5 rounded-lg transition-all cursor-pointer" data-period="hour" id="tabHour" data-i18n="tabHour">Hour</button>
+                        <div class="inline-flex p-0.5 bg-slate-100 rounded-lg text-xs font-semibold text-slate-600 overflow-x-auto">
+                            <button type="button" class="tab-btn px-2.5 py-1 rounded-md transition-all cursor-pointer" data-period="year" id="tabYear" data-i18n="tabYear">Year</button>
+                            <button type="button" class="tab-btn px-2.5 py-1 rounded-md transition-all cursor-pointer" data-period="quarter" id="tabQuarter" data-i18n="tabQuarter">Quarter</button>
+                            <button type="button" class="tab-btn active px-2.5 py-1 rounded-md transition-all cursor-pointer" data-period="month" id="tabMonth" data-i18n="tabMonth">Month</button>
+                            <button type="button" class="tab-btn px-2.5 py-1 rounded-md transition-all cursor-pointer" data-period="week" id="tabWeek" data-i18n="tabWeek">Week</button>
+                            <button type="button" class="tab-btn px-2.5 py-1 rounded-md transition-all cursor-pointer" data-period="day" id="tabDay" data-i18n="tabDay">Day</button>
+                            <button type="button" class="tab-btn px-2.5 py-1 rounded-md transition-all cursor-pointer" data-period="hour" id="tabHour" data-i18n="tabHour">Hour</button>
                         </div>
                     </div>
 
                     <!-- Period Summary Grid -->
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
-                        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                            <span data-i18n="periodGrossLabel" class="text-xs text-slate-500 font-medium block">Gross Revenue</span>
-                            <span id="periodGross" class="text-base font-bold text-slate-900 font-mono-num">€0</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                        <div class="p-2 sm:p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                            <span data-i18n="periodGrossLabel" class="text-[11px] text-slate-500 font-medium block">Gross Revenue</span>
+                            <span id="periodGross" class="text-sm sm:text-base font-bold text-slate-900 font-mono-num">€0</span>
                         </div>
-                        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                            <span data-i18n="periodExpensesLabel" class="text-xs text-slate-500 font-medium block">Expenses & AOV</span>
-                            <span id="periodExpenses" class="text-base font-bold text-slate-700 font-mono-num">-€0</span>
+                        <div class="p-2 sm:p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                            <span data-i18n="periodExpensesLabel" class="text-[11px] text-slate-500 font-medium block">Expenses & AOV</span>
+                            <span id="periodExpenses" class="text-sm sm:text-base font-bold text-slate-700 font-mono-num">-€0</span>
                         </div>
-                        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                            <span data-i18n="periodTaxableLabel" class="text-xs text-slate-500 font-medium block">Taxable Profit</span>
-                            <span id="periodTaxable" class="text-base font-bold text-slate-800 font-mono-num">€0</span>
+                        <div class="p-2 sm:p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                            <span data-i18n="periodTaxableLabel" class="text-[11px] text-slate-500 font-medium block">Taxable Profit</span>
+                            <span id="periodTaxable" class="text-sm sm:text-base font-bold text-slate-800 font-mono-num">€0</span>
                         </div>
-                        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                            <span data-i18n="periodZvwLabel" class="text-xs text-slate-500 font-medium block">Zvw Health Premie</span>
-                            <span id="periodZvw" class="text-base font-bold text-rose-600 font-mono-num">-€0</span>
+                        <div class="p-2 sm:p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                            <span data-i18n="periodZvwLabel" class="text-[11px] text-slate-500 font-medium block">Zvw Health Premie</span>
+                            <span id="periodZvw" class="text-sm sm:text-base font-bold text-rose-600 font-mono-num">-€0</span>
                         </div>
-                        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                            <span data-i18n="periodTaxLabel" class="text-xs text-slate-500 font-medium block">Box 1 Income Tax</span>
-                            <span id="periodTax" class="text-base font-bold text-rose-600 font-mono-num">-€0</span>
+                        <div class="p-2 sm:p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                            <span data-i18n="periodTaxLabel" class="text-[11px] text-slate-500 font-medium block">Box 1 Income Tax</span>
+                            <span id="periodTax" class="text-sm sm:text-base font-bold text-rose-600 font-mono-num">-€0</span>
                         </div>
-                        <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-100">
-                            <span data-i18n="periodNetLabel" class="text-xs text-emerald-700 font-medium block">Net Take-Home</span>
-                            <span id="periodNet" class="text-base font-extrabold text-emerald-700 font-mono-num">€0</span>
+                        <div class="p-2 sm:p-2.5 bg-emerald-50 rounded-xl border border-emerald-100">
+                            <span data-i18n="periodNetLabel" class="text-[11px] text-emerald-700 font-medium block">Net Take-Home</span>
+                            <span id="periodNet" class="text-sm sm:text-base font-extrabold text-emerald-700 font-mono-num">€0</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Revenue Distribution Stacked Bar -->
-                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80">
-                    <h3 data-i18n="distTitle" class="text-sm font-bold text-slate-700 mb-3">Where Does Your Turnover Go?</h3>
-                    <div class="h-4 rounded-full bg-slate-100 overflow-hidden flex w-full">
+                <div class="bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80">
+                    <h3 data-i18n="distTitle" class="text-xs font-bold text-slate-700 mb-2">Where Does Your Turnover Go?</h3>
+                    <div class="h-3 rounded-full bg-slate-100 overflow-hidden flex w-full">
                         <div id="distNetBar" class="bg-emerald-500 h-full transition-all duration-300" style="width: 50%" title="Net Income"></div>
                         <div id="distTaxBar" class="bg-rose-500 h-full transition-all duration-300" style="width: 30%" title="Taxes & Zvw"></div>
                         <div id="distPensionBar" class="bg-indigo-500 h-full transition-all duration-300" style="width: 10%" title="Pension Deposit"></div>
                         <div id="distExpBar" class="bg-slate-400 h-full transition-all duration-300" style="width: 10%" title="Operating Expenses"></div>
                     </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 text-xs font-semibold">
-                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span><span data-i18n="distNet" class="text-slate-600">Net Take-Home:</span> <span id="distNetLabel" class="font-mono-num text-slate-900">0%</span></div>
-                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span><span data-i18n="distTax" class="text-slate-600">Tax & Zvw:</span> <span id="distTaxLabel" class="font-mono-num text-slate-900">0%</span></div>
-                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span><span data-i18n="distPension" class="text-slate-600">Pension:</span> <span id="distPensionLabel" class="font-mono-num text-slate-900">0%</span></div>
-                        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span><span data-i18n="distExp" class="text-slate-600">Expenses:</span> <span id="distExpLabel" class="font-mono-num text-slate-900">0%</span></div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 mt-2 text-[11px] font-semibold">
+                        <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span><span data-i18n="distNet" class="text-slate-600">Net Take-Home:</span> <span id="distNetLabel" class="font-mono-num text-slate-900">0%</span></div>
+                        <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span><span data-i18n="distTax" class="text-slate-600">Tax & Zvw:</span> <span id="distTaxLabel" class="font-mono-num text-slate-900">0%</span></div>
+                        <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-indigo-500"></span><span data-i18n="distPension" class="text-slate-600">Pension:</span> <span id="distPensionLabel" class="font-mono-num text-slate-900">0%</span></div>
+                        <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-slate-400"></span><span data-i18n="distExp" class="text-slate-600">Expenses:</span> <span id="distExpLabel" class="font-mono-num text-slate-900">0%</span></div>
                     </div>
                 </div>
 
                 <!-- Detailed Financial & Tax Breakdown Table -->
-                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/80">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
-                        <h3 data-i18n="detailedTitle" class="text-base font-bold text-slate-900 flex items-center gap-2">
+                <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
+                        <h3 data-i18n="detailedTitle" class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
                             📊 Detailed Dutch Tax Breakdown
                         </h3>
-                        <span id="activeYearBadge" class="text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-lg border border-blue-100">Tax Year 2026</span>
+                        <span id="activeYearBadge" class="text-xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">Tax Year 2026</span>
                     </div>
 
-                    <div class="space-y-2 text-sm">
+                    <div class="space-y-1.5 text-xs sm:text-sm">
                         <!-- Revenue -->
-                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                        <div class="flex justify-between py-1 border-b border-slate-100">
                             <span data-i18n="rowRevenue" class="text-slate-600">Gross Turnover (Omzet)</span>
                             <span id="outRevenue" class="font-semibold text-slate-900 font-mono-num">€0</span>
                         </div>
 
                         <!-- Expenses -->
-                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                        <div class="flex justify-between py-1 border-b border-slate-100">
                             <span data-i18n="rowExpenses" class="text-slate-600">Operating Expenses & AOV Insurance</span>
                             <span id="outExpenses" class="font-semibold text-slate-700 font-mono-num">-€0</span>
                         </div>
 
                         <!-- Profit before deductions -->
-                        <div class="flex justify-between py-2 px-3 rounded-xl bg-slate-50 border border-slate-100">
+                        <div class="flex justify-between py-1.5 px-2.5 rounded-lg bg-slate-50 border border-slate-100">
                             <span data-i18n="rowProfitBefore" class="font-bold text-slate-800">Gross Business Profit (Winst uit onderneming)</span>
                             <span id="outProfitBefore" class="font-bold text-slate-900 font-mono-num">€0</span>
                         </div>
 
                         <!-- Zelfstandigenaftrek -->
-                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                        <div class="flex justify-between py-1 border-b border-slate-100">
                             <div class="flex items-center gap-1">
                                 <span data-i18n="rowZA" class="text-slate-600">Zelfstandigenaftrek</span>
                                 <!-- Instant Popover Tooltip -->
@@ -428,7 +426,7 @@
                         </div>
 
                         <!-- Startersaftrek -->
-                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                        <div class="flex justify-between py-1 border-b border-slate-100">
                             <div class="flex items-center gap-1">
                                 <span data-i18n="rowStarters" class="text-slate-600">Startersaftrek</span>
                                 <!-- Instant Popover Tooltip -->
@@ -450,7 +448,7 @@
                         </div>
 
                         <!-- MKB Winstvrijstelling -->
-                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                        <div class="flex justify-between py-1 border-b border-slate-100">
                             <div class="flex items-center gap-1">
                                 <span data-i18n="rowMKB" class="text-slate-600">MKB-Winstvrijstelling (12.7%)</span>
                                 <!-- Instant Popover Tooltip -->
@@ -472,7 +470,7 @@
                         </div>
 
                         <!-- Fiscale Winst -->
-                        <div class="flex justify-between py-2 px-3 rounded-xl bg-slate-50 border border-slate-100">
+                        <div class="flex justify-between py-1.5 px-2.5 rounded-lg bg-slate-50 border border-slate-100">
                             <div class="flex items-center gap-1">
                                 <span data-i18n="rowTaxableProfit" class="font-bold text-slate-800">Taxable Business Profit (Fiscale Winst)</span>
                                 <!-- Tooltip -->
@@ -494,7 +492,7 @@
                         </div>
 
                         <!-- Zvw -->
-                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                        <div class="flex justify-between py-1 border-b border-slate-100">
                             <div class="flex items-center gap-1">
                                 <span class="text-slate-600" id="zvwLabel">Zvw Healthcare Tax</span>
                                 <!-- Tooltip -->
@@ -516,7 +514,7 @@
                         </div>
 
                         <!-- Pension -->
-                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                        <div class="flex justify-between py-1 border-b border-slate-100">
                             <div class="flex items-center gap-1">
                                 <span data-i18n="rowPension" class="text-slate-600">Pension / Lijfrente Deduction</span>
                                 <!-- Tooltip -->
@@ -538,7 +536,7 @@
                         </div>
 
                         <!-- Taxable Income Box 1 -->
-                        <div class="flex justify-between py-2 px-3 rounded-xl bg-slate-50 border border-slate-100">
+                        <div class="flex justify-between py-1.5 px-2.5 rounded-lg bg-slate-50 border border-slate-100">
                             <div class="flex items-center gap-1">
                                 <span data-i18n="rowTaxableIncome" class="font-bold text-slate-800">Taxable Income (Box 1)</span>
                                 <!-- Tooltip -->
@@ -560,13 +558,13 @@
                         </div>
 
                         <!-- Box 1 gross tax -->
-                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                        <div class="flex justify-between py-1 border-b border-slate-100">
                             <span data-i18n="rowBox1Gross" class="text-slate-600">Gross Box 1 Tax (before credits)</span>
                             <span id="outBox1Gross" class="font-semibold text-slate-700 font-mono-num">€0</span>
                         </div>
 
                         <!-- Heffingskortingen -->
-                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                        <div class="flex justify-between py-1 border-b border-slate-100">
                             <div class="flex items-center gap-1">
                                 <span data-i18n="rowCredits" class="text-slate-600">Applied Tax Credits (Heffingskortingen)</span>
                                 <!-- Tooltip -->
@@ -588,15 +586,15 @@
                         </div>
 
                         <!-- Final Box 1 Tax -->
-                        <div class="flex justify-between py-1.5 border-b border-slate-100">
+                        <div class="flex justify-between py-1 border-b border-slate-100">
                             <span data-i18n="rowTax" class="font-semibold text-rose-600">Final Box 1 Income Tax</span>
                             <span id="outTax" class="font-bold text-rose-600 font-mono-num">-€0</span>
                         </div>
 
                         <!-- Net Take Home -->
-                        <div class="flex justify-between py-3 px-3 rounded-2xl bg-emerald-50 border border-emerald-200 mt-2">
-                            <span data-i18n="rowNetTakeHome" class="font-black text-emerald-900 text-base">Annual Net Disposable Cash</span>
-                            <span id="outNetTakeHome" class="font-black text-emerald-800 text-base font-mono-num">€0</span>
+                        <div class="flex justify-between py-2.5 px-3 rounded-xl bg-emerald-50 border border-emerald-200 mt-1">
+                            <span data-i18n="rowNetTakeHome" class="font-black text-emerald-900 text-sm sm:text-base">Annual Net Disposable Cash</span>
+                            <span id="outNetTakeHome" class="font-black text-emerald-800 text-sm sm:text-base font-mono-num">€0</span>
                         </div>
                     </div>
                 </div>
@@ -604,26 +602,23 @@
             </div>
         </main>
 
-        <!-- Footer & Disclaimer -->
-        <footer class="mt-12 pt-6 border-t border-slate-200 text-xs text-slate-500 space-y-2 text-center md:text-left">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-2">
-                <p data-i18n="footerDisclaimer">
+        <!-- Compact Footer -->
+        <footer class="mt-6 pt-3 border-t border-slate-200 text-xs text-slate-500 space-y-1.5 text-center sm:text-left">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-1.5">
+                <p data-i18n="footerDisclaimer" class="text-[11px] leading-relaxed">
                     🇳🇱 <strong>Disclaimer:</strong> This calculator provides realistic estimates based on Dutch Ministry of Finance (<em class="italic">Belastingdienst</em>) rules for 2025 and 2026. Consult a registered Dutch tax adviser (<em class="italic">belastingadviseur</em>) for individual filings.
                 </p>
-                <div class="flex items-center gap-3">
-                    <a href="https://github.com/towerrelay007/dutch-zzp-tax-calculator" target="_blank" rel="noopener" data-i18n="footerSource" class="text-blue-600 hover:text-blue-800 font-medium underline">
+                <div class="flex items-center gap-2 shrink-0">
+                    <a href="https://github.com/towerrelay007/dutch-zzp-tax-calculator" target="_blank" rel="noopener" data-i18n="footerSource" class="text-blue-600 hover:text-blue-800 font-medium underline text-xs">
                         GitHub Source
                     </a>
                 </div>
             </div>
-            <p data-i18n="footerBuildNote" class="text-slate-400 text-[11px]">
-                Built with zero build tools. Uses vanilla JS and Tailwind CSS. Hosted on GitHub Pages.
-            </p>
         </footer>
     </div>
 
     <!-- Toast Notification for Link Copy -->
-    <div id="toastNotification" class="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl text-xs font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50">
+    <div id="toastNotification" class="fixed bottom-5 right-5 bg-slate-900 text-white px-3.5 py-2.5 rounded-xl shadow-xl text-xs font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50">
         <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
         <span>Link copied to clipboard!</span>
     </div>
