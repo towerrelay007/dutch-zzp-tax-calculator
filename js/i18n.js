@@ -85,6 +85,18 @@ export const TRANSLATIONS = {
     rowTax: "Final Box 1 Income Tax",
     rowNetTakeHome: "Annual Net Disposable Cash",
 
+    // Tooltip Explanations
+    tipZA: "Tax deduction for entrepreneurs who work at least 1,225 hours per year in their business. €1,200 in 2026 (€2,470 in 2025).",
+    tipStarters: "Additional tax deduction of €2,123 for starting entrepreneurs, applicable in at most 3 of your first 5 years.",
+    tipMKB: "Tax exemption of 12.7% on your business profit after deducting Zelfstandigenaftrek & Startersaftrek.",
+    tipZvw: "Mandatory income-dependent healthcare contribution. In 2026: 4.85% capped at €79,409 base (max €3,851). In 2025: 5.32% capped at €75,860.",
+    tipPension: "Tax-deductible deposits into an approved private annuity / pension account (lijfrente) within your annual allowance (jaarruimte).",
+    tipAOV: "Premiums paid for an individual disability insurance policy (AOV) are 100% tax-deductible in Box 1.",
+    tipUrencriterium: "Requirement to spend at least 1,225 hours per calendar year on business activities to qualify for entrepreneurial deductions.",
+    tipCredits: "Direct reductions on Box 1 income tax: General Tax Credit (Algemene heffingskorting) and Labor Tax Credit (Arbeidskorting).",
+    tipFiscaleWinst: "Taxable business profit after deducting operating expenses, entrepreneurial deductions, and the 12.7% MKB exemption.",
+    tipTaxableIncome: "Box 1 taxable income (Fiscale winst minus deductible pension contributions).",
+
     // Footer
     footerDisclaimer: "Disclaimer: This calculator provides realistic estimates based on Dutch Ministry of Finance (Belastingdienst) rules for 2025 and 2026. Consult a registered Dutch tax adviser (belastingadviseur) for individual filings.",
     footerSource: "GitHub Source",
@@ -171,6 +183,18 @@ export const TRANSLATIONS = {
     rowCredits: "Toegepaste heffingskortingen (AHK + Arbeidskorting)",
     rowTax: "Te betalen inkomstenbelasting Box 1",
     rowNetTakeHome: "Jaarlijks netto besteedbaar inkomen",
+
+    // Tooltip Explanations
+    tipZA: "Fiscale aftrekpost voor ondernemers die minimaal 1.225 uur per kalenderjaar aan hun bedrijf besteden. €1.200 in 2026 (€2.470 in 2025).",
+    tipStarters: "Aanvullende aftrek van €2.123 voor startende ondernemers, maximaal 3 keer toepasbaar in de eerste 5 jaar.",
+    tipMKB: "Fiscale vrijstelling van 12,7% over de winst na aftrek van Zelfstandigenaftrek en Startersaftrek.",
+    tipZvw: "Verplichte inkomensafhankelijke bijdrage Zorgverzekeringswet. In 2026: 4,85% tot max €79.409 grondslag (max €3.851). In 2025: 5,32% tot €75.860.",
+    tipPension: "Fiscaal aftrekbare stortingen in een lijfrente- of pensioenrekening binnen je jaarruimte / reserveringsruimte.",
+    tipAOV: "Betaalde premies voor een individuele arbeidsongeschiktheidsverzekering (AOV) zijn 100% fiscaal aftrekbaar in Box 1.",
+    tipUrencriterium: "Voorwaarde om minimaal 1.225 uur per kalenderjaar aan je onderneming te besteden om recht te hebben op ondernemersaftrek.",
+    tipCredits: "Directe verminderingen op de te betalen Box 1 belasting: Algemene heffingskorting en Arbeidskorting.",
+    tipFiscaleWinst: "Belastbare winst uit onderneming na aftrek van kosten, ondernemersaftrek en de 12,7% MKB-winstvrijstelling.",
+    tipTaxableIncome: "Belastbaar inkomen uit werk en woning (Fiscale winst minus aftrekbare pensioeninleg).",
 
     // Footer
     footerDisclaimer: "Disclaimer: Deze calculator biedt realistische schattingen op basis van de officiële Belastingdienst regels voor 2025 en 2026. Raadpleeg een geregistreerd belastingadviseur voor definitieve aangiften.",

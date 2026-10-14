@@ -13,6 +13,28 @@ test('i18n dictionary contains en and nl locales with identical keys', () => {
   assert.deepEqual(enKeys, nlKeys, 'All keys in English bundle must match Dutch bundle');
 });
 
+test('all required tax explanation tooltips are defined with non-empty text', () => {
+  const tooltipKeys = [
+    'tipZA',
+    'tipStarters',
+    'tipMKB',
+    'tipZvw',
+    'tipPension',
+    'tipAOV',
+    'tipUrencriterium',
+    'tipCredits',
+    'tipFiscaleWinst',
+    'tipTaxableIncome'
+  ];
+
+  for (const key of tooltipKeys) {
+    const enText = t(key, 'en');
+    const nlText = t(key, 'nl');
+    assert.ok(enText && enText !== key, `Tooltip ${key} must have English translation`);
+    assert.ok(nlText && nlText !== key, `Tooltip ${key} must have Dutch translation`);
+  }
+});
+
 test('t() helper translates and interpolates parameters correctly', () => {
   const enBadge = t('hoursDisplay', 'en', { wkHours: '31.3', days: '3.9' });
   assert.equal(enBadge, '31.3 hrs/wk (~3.9 days)');

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="euroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded App Icon Background -->
+  <rect width="64" height="64" rx="16" fill="url(#bgGrad)"/>
+
+  <!-- Dutch Flag Subtle Accent Bar (Top Right) -->
+  <g transform="translate(42, 6)">
+    <rect width="16" height="3" rx="1" fill="#AE1C28"/>
+    <rect y="3" width="16" height="3" fill="#FFFFFF"/>
+    <rect y="6" width="16" height="3" rx="1" fill="#21468B"/>
+  </g>
+
+  <!-- Golden Euro Symbol (€) -->
+  <path d="M 42 20.5 C 39.5 18 35.8 16.5 31.5 16.5 C 22.5 16.5 15.5 23.5 15.5 32 C 15.5 40.5 22.5 47.5 31.5 47.5 C 35.8 47.5 39.5 46 42 43.5 M 10.5 28.5 L 34.5 28.5 M 10.5 35.5 L 34.5 35.5" 
+        fill="none" 
+        stroke="url(#euroGrad)" 
+        stroke-width="5.5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+</svg>
